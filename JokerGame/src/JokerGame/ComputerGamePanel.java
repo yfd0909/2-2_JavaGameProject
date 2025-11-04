@@ -14,7 +14,7 @@ public class ComputerGamePanel extends JPanel {
         
         // 임시 표시
         this.setBorder(BorderFactory.createTitledBorder(
-            "Opponent's Hand (Cards face down)"
+            "Computer's Hand"
         ));
     }
 }

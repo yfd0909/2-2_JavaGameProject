@@ -1,7 +1,9 @@
 package JokerGame;
 
 import javax.swing.*;
+import java.util.List;
 import java.awt.*;
+import java.awt.event.ActionListener; //액션 리스너 임포트
 
 // 플레이어 패널 클래스
 public class PlayerGamePanel extends JPanel {
@@ -14,7 +16,32 @@ public class PlayerGamePanel extends JPanel {
 
         // 임시 표시
         this.setBorder(BorderFactory.createTitledBorder(
-            "Your Hand (Clickable Cards)"
+            "Your Hand"
         ));
+    }
+    // 추후 Card클래스로 변경 예정
+    public void DisplayPlayerHand(List<TestCard> cardList, ActionListener cardClickListener) {
+        this.removeAll(); // 기존 카드들을 모두 제거
+
+        if (cardList != null) {
+            for (TestCard card : cardList) {
+                // 임시 카드 생성 지금은 카드 이름 띄우기
+                JButton cardButton = new JButton(card.getType());
+                cardButton.setPreferredSize(new Dimension(70, 100));
+                cardButton.setBackground(Color.WHITE);
+                cardButton.setForeground(Color.BLACK);
+                cardButton.setActionCommand(card.getType());
+                
+                // 카드 클릭 리스너 추가
+                if (cardClickListener != null) {
+                    cardButton.addActionListener(cardClickListener);
+                }
+                
+                this.add(cardButton); // 패널에 버튼 추가
+            }
+        }
+        
+        this.revalidate(); // 컴포넌트 추가 후 레이아웃을 다시 계산
+        this.repaint(); // 컴포넌트 다시 그림
     }
 }
