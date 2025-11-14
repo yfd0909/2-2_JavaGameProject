@@ -7,7 +7,7 @@ public class GameInfo {
 	private String message; //메세지 띄우기용
 	// UI초기화
 	GameInfo(int computerCardCount, int playerCardCount){
-		this.turnCount = 0;
+		this.turnCount = 1;
 		this.computerCardCount = computerCardCount;
 		this.playerCardCount = playerCardCount;
 		this.message = "게임을 시작합니다.";

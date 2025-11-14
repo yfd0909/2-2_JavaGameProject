@@ -3,13 +3,13 @@ package JokerGame;
 import java.awt.*;
 import javax.swing.*;
 
-public class GameInfoUIPanel extends JPanel{
+public class GameInfoPanel extends JPanel{
 	private LabelContainer turnContainer;
 	private LabelContainer playerCardCountContainer;
 	private LabelContainer computerCardCountContainer;
 	private LabelContainer messageContainer;
 	   
-	public GameInfoUIPanel(GameInfo info) {
+	public GameInfoPanel(GameInfo info) {
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); 
 		this.setBackground(new Color(0, 50, 0));
 	        
@@ -39,6 +39,7 @@ public class GameInfoUIPanel extends JPanel{
         messageContainer.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // 패널에 추가 
+        this.add(Box.createVerticalStrut(10));
         this.add(turnContainer);
         this.add(Box.createVerticalStrut(20));
         this.add(playerCardCountContainer);
@@ -52,7 +53,7 @@ public class GameInfoUIPanel extends JPanel{
 	}
 	public void UpdateInfo(GameInfo info) {
 		
-		turnContainer.getLabel().setText("현재 턴: " + info.GetTurnCount());
+		turnContainer.getLabel().setText("현재 턴 " + info.GetTurnCount());
         playerCardCountContainer.getLabel().setText("내 카드 수: " + info.GetPlayerCardCount());
         computerCardCountContainer.getLabel().setText("상대 카드 수: " + info.GetComputerCardCount());
         messageContainer.getLabel().setText(info.GetMessage());

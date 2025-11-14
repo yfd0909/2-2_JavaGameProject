@@ -11,7 +11,7 @@ public class CenterGamePanel extends JPanel {
         this.setLayout(null);
 
         // 카드 더미 이미지 나중에 직접 그리거나 이미지로 대체
-        JLabel deckPlaceholder = new JLabel("Card Deck");
+        JLabel deckPlaceholder = new JLabel();
         deckPlaceholder.setForeground(Color.WHITE);
         deckPlaceholder.setHorizontalAlignment(SwingConstants.CENTER);
         deckPlaceholder.setBounds(400, 200, 200, 100);
