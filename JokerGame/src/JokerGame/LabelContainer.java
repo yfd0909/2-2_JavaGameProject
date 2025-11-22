@@ -3,7 +3,7 @@ package JokerGame;
 import javax.swing.*;
 import java.awt.*;
 
-class LabelContainer extends JPanel {
+public class LabelContainer extends JPanel {
     
     private JLabel contentLabel;
     

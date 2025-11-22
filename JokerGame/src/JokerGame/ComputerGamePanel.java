@@ -1,3 +1,4 @@
+/*
 package JokerGame;
 
 import javax.swing.*;
@@ -42,7 +43,6 @@ public class ComputerGamePanel extends JPanel {
         cardMouseAdapter = new MouseAdapter() {
         	@Override
             public void mouseEntered(MouseEvent e) {
-                // 이벤트가 발생한 소스 얻어옴
                 JButton sourceButton = (JButton) e.getSource();
                 sourceButton.setBorder(new LineBorder(Color.RED, 3));
             }
@@ -79,7 +79,7 @@ public class ComputerGamePanel extends JPanel {
                 cardButton.setActionCommand(card.getType());
                 cardButton.setOpaque(true);
                 
-                // 카드 클릭 리스너 추가
+                // 카드에 액션리스너, 마우스어댑터 추
                 if (cardClickListener != null) {
                     cardButton.addActionListener(cardClickListener);
                     cardButton.addMouseListener(cardMouseAdapter);
@@ -97,3 +97,4 @@ public class ComputerGamePanel extends JPanel {
         this.repaint(); // 컴포넌트 
     }
 }
+*/

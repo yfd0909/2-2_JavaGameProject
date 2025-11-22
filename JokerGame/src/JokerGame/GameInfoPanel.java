@@ -5,6 +5,8 @@ import javax.swing.*;
 
 public class GameInfoPanel extends JPanel{
 	private LabelContainer turnContainer;
+	private LabelContainer playerNameContainer;
+	private LabelContainer winLoseContainer;
 	private LabelContainer playerCardCountContainer;
 	private LabelContainer computerCardCountContainer;
 	private LabelContainer messageContainer;
@@ -15,7 +17,13 @@ public class GameInfoPanel extends JPanel{
 	        
 		// 턴 수 라벨
         turnContainer = new LabelContainer(
-            new Font("SansSerif", Font.BOLD, 20), Color.WHITE, 45);
+            new Font("SansSerif", Font.BOLD, 20), Color.RED, 45);
+        
+        // 플레이어 정보
+        playerNameContainer = new LabelContainer(
+                new Font("SansSerif", Font.BOLD, 15), Color.WHITE, 45);
+        winLoseContainer = new LabelContainer(
+                new Font("SansSerif", Font.BOLD, 15), Color.WHITE, 45);
         
         // 플레이어 카드 수 라벨
         playerCardCountContainer = new LabelContainer(
@@ -29,8 +37,13 @@ public class GameInfoPanel extends JPanel{
         messageContainer = new LabelContainer(
             new Font("SansSerif", Font.BOLD, 17), Color.YELLOW, 40);
         
-        // 생성자에서 초기화 한 번 슛
+        // 생성자에서 초기화 슛
         UpdateInfo(info);
+        // 플레이어 정보는 한 번만
+        playerNameContainer.getLabel().setText("플레이어 이름 : " + info.GetPlayerName());
+        winLoseContainer.getLabel().setText(
+        		"승리 : " + info.GetWinCount() + " / " +
+        		"패배 : " + info.GetLoseCount());
         
         // X축 정렬
         turnContainer.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -42,7 +55,10 @@ public class GameInfoPanel extends JPanel{
         this.add(Box.createVerticalStrut(10));
         this.add(turnContainer);
         this.add(Box.createVerticalStrut(20));
-        this.add(playerCardCountContainer);
+        this.add(playerNameContainer);
+        this.add(Box.createVerticalStrut(10));
+        this.add(winLoseContainer);
+        this.add(Box.createVerticalStrut(20));
         this.add(playerCardCountContainer);
         this.add(Box.createVerticalStrut(10));
         this.add(computerCardCountContainer);

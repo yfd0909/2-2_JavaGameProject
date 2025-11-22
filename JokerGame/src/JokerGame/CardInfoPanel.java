@@ -6,31 +6,33 @@ import javax.swing.border.EmptyBorder;
 
 public class CardInfoPanel extends JPanel {
 	private JPanel cardImage;
-	private JLabel cardText;
+	private LabelContainer cardTypeContainer;
+	private LabelContainer cardNumContainer;
 	
 	public CardInfoPanel(){
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); 
 		this.setBackground(new Color(0, 50, 0));
 		
 		cardImage = new JPanel();
-		cardImage.setBackground(Color.WHITE);
-		cardImage.setLayout(new BorderLayout());
 		cardImage.setPreferredSize(new Dimension(105, 150));
-		cardImage.setMaximumSize(new Dimension(105, 150));
 		
-		cardText = new JLabel("Card Info");
-        cardText.setForeground(Color.WHITE);
-        cardText.setFont(new Font("SansSerif", Font.BOLD, 15));
-        cardText.setHorizontalAlignment(SwingConstants.CENTER);
+		cardTypeContainer = new LabelContainer(
+	            new Font("SansSerif", Font.PLAIN, 15), Color.WHITE, 45);
 		
-        cardImage.setAlignmentX(Component.CENTER_ALIGNMENT);
-        cardText.setAlignmentX(Component.CENTER_ALIGNMENT);
+		cardNumContainer = new LabelContainer(
+	            new Font("SansSerif", Font.BOLD, 20), Color.MAGENTA, 45);
         
 		//배치
         this.add(Box.createVerticalStrut(20));
 		this.add(cardImage);
 		this.add(Box.createVerticalStrut(10));
-		this.add(cardText);
-		this.add(Box.createVerticalGlue());
+		this.add(cardTypeContainer);
+		this.add(Box.createVerticalStrut(10));
+		this.add(cardNumContainer);
+	}
+	public void SetCardText(String type, String num) {
+		//여기에 클릭된 카드 정보 텍스트 업데이트
+		cardTypeContainer.getLabel().setText(type);
+		cardNumContainer.getLabel().setText(num);
 	}
 }
