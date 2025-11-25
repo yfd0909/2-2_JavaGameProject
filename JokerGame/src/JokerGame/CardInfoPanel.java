@@ -13,14 +13,16 @@ public class CardInfoPanel extends JPanel {
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); 
 		this.setBackground(new Color(0, 50, 0));
 		
+		Color labelColor = new Color(128, 0, 32);
+		
 		cardImage = new JPanel();
 		cardImage.setPreferredSize(new Dimension(105, 150));
 		
 		cardTypeContainer = new LabelContainer(
-	            new Font("SansSerif", Font.PLAIN, 15), Color.WHITE, 45);
+	            new Font("SansSerif", Font.PLAIN, 15), Color.WHITE, 45, labelColor);
 		
 		cardNumContainer = new LabelContainer(
-	            new Font("SansSerif", Font.BOLD, 20), Color.MAGENTA, 45);
+	            new Font("SansSerif", Font.BOLD, 20), Color.MAGENTA, 45, labelColor);
         
 		//배치
         this.add(Box.createVerticalStrut(20));

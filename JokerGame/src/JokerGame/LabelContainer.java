@@ -7,9 +7,9 @@ public class LabelContainer extends JPanel {
     
     private JLabel contentLabel;
     
-    public LabelContainer(Font font, Color foreColor, int height) {
+    public LabelContainer(Font font, Color foreColor, int height, Color backColor) {
         this.setLayout(new BorderLayout()); 
-        this.setBackground(new Color(0, 50, 0));
+        this.setBackground(backColor);
         
         // JLabel 초기화
         contentLabel = new JLabel("", SwingConstants.CENTER);

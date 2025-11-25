@@ -12,30 +12,33 @@ public class GameInfoPanel extends JPanel{
 	private LabelContainer messageContainer;
 	   
 	public GameInfoPanel(GameInfo info) {
+		
+		Color labelColor = new Color(100, 0, 32);
+		
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); 
-		this.setBackground(new Color(0, 50, 0));
+		this.setBackground(labelColor);
 	        
 		// 턴 수 라벨
         turnContainer = new LabelContainer(
-            new Font("SansSerif", Font.BOLD, 20), Color.RED, 45);
+            new Font("SansSerif", Font.BOLD, 20), Color.RED, 45, labelColor);
         
         // 플레이어 정보
         playerNameContainer = new LabelContainer(
-                new Font("SansSerif", Font.BOLD, 15), Color.WHITE, 45);
+                new Font("SansSerif", Font.BOLD, 15), Color.WHITE, 45, labelColor);
         winLoseContainer = new LabelContainer(
-                new Font("SansSerif", Font.BOLD, 15), Color.WHITE, 45);
+                new Font("SansSerif", Font.BOLD, 15), Color.WHITE, 45, labelColor);
         
         // 플레이어 카드 수 라벨
         playerCardCountContainer = new LabelContainer(
-            new Font("SansSerif", Font.PLAIN, 15), Color.LIGHT_GRAY, 30);
+            new Font("SansSerif", Font.PLAIN, 15), Color.LIGHT_GRAY, 30, labelColor);
         
         // 컴퓨터 카드 수 라벨
         computerCardCountContainer = new LabelContainer(
-            new Font("SansSerif", Font.PLAIN, 15), Color.LIGHT_GRAY, 30);
+            new Font("SansSerif", Font.PLAIN, 15), Color.LIGHT_GRAY, 30, labelColor);
         
         // 메시지 라벨
         messageContainer = new LabelContainer(
-            new Font("SansSerif", Font.BOLD, 17), Color.YELLOW, 40);
+            new Font("SansSerif", Font.BOLD, 17), Color.YELLOW, 40, labelColor);
         
         // 생성자에서 초기화 슛
         UpdateInfo(info);
@@ -70,8 +73,8 @@ public class GameInfoPanel extends JPanel{
 	public void UpdateInfo(GameInfo info) {
 		
 		turnContainer.getLabel().setText("현재 턴 " + info.GetTurnCount());
-        playerCardCountContainer.getLabel().setText("내 카드 수: " + info.GetPlayerCardCount());
-        computerCardCountContainer.getLabel().setText("상대 카드 수: " + info.GetComputerCardCount());
+        playerCardCountContainer.getLabel().setText("나의 체력: " + info.GetPlayeHp());
+        computerCardCountContainer.getLabel().setText("상대 체력: " + info.GetComputerHp());
         messageContainer.getLabel().setText(info.GetMessage());
         
         //패널 다시 그리기

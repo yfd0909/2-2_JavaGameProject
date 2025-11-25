@@ -2,6 +2,7 @@ package JokerGame;
 
 import javax.swing.*;
 import java.awt.*;
+import java.net.URL;
 
 // 중앙 카드더미 및 게임판 패널
 public class CenterGamePanel extends JPanel {
@@ -31,12 +32,10 @@ public class CenterGamePanel extends JPanel {
         comResultOperatorBox = new JLabel();
         userOperatorBox = new JLabel();
         userResultOperatorBox = new JLabel();
-        versusBox = new JLabel();
         comOperatorBox.setPreferredSize(new Dimension(35, 35));
         comResultOperatorBox.setPreferredSize(new Dimension(35, 35));
         userOperatorBox.setPreferredSize(new Dimension(35, 35));
         userResultOperatorBox.setPreferredSize(new Dimension(35, 35));
-        versusBox.setPreferredSize(new Dimension(35, 35));
         
         // 윗부분 (컴퓨터 쪽)
         JPanel topPanel = new JPanel();
@@ -58,6 +57,8 @@ public class CenterGamePanel extends JPanel {
         // 중간부분 (VS글자)
         JPanel middlePanel = new JPanel();
         middlePanel.setBackground(bgColor);
+        versusBox = new JLabel();
+        versusBox.setSize(35, 35);
         middlePanel.add(versusBox);
         
         // 아랫부분 (플레이어쪽)
