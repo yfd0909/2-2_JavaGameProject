@@ -43,12 +43,15 @@ public class GameManager {
 
 	int[] playerCh = new int[2]; // 플레이어 선택 카드 두개
 	int[] pcCh = new int[2]; // PC 선택 카드 두개
-	
-	static int pcWin=0;
-	static int pcLose=0;
-	
-	static int playerWin=0;
-	static int playerLose=0;
+
+	static int pcWin = 0;
+	static int pcLose = 0;
+
+	static int playerWin = 0;
+	static int playerLose = 0;
+
+	private static int playerHP = 3;
+	private static int pcHP = 3;
 
 	// a, b의 정보를 받아와서 그걸 계산하는 것.
 	public int operator(int a, int b, int opInt) {
@@ -71,7 +74,7 @@ public class GameManager {
 
 	// 카드 12개 중 두개 선택 시 정보 받아옴.
 	public void playInConsole() {
-		
+
 		Scanner sc = new Scanner(System.in);
 		int opInt = rand.nextInt(4) + 1; // 연산자 결정할 변수 (1~4)
 		for (int i = 0; i < playerHand.size(); i++) {
@@ -100,8 +103,16 @@ public class GameManager {
 			System.out.println("컴퓨터: " + pc1 + "와" + " " + pc2 + " 계산 결과: " + pcResult);
 			System.out.println("플레이어: " + player1 + "와" + " " + player2 + " 계산결과: " + playerResult);
 			System.out.println("플레이어 승리");
+			System.out.println();
+			pcHP--;
+
+			System.out.println("컴퓨터 HP: " + pcHP);
+			System.out.println("플레이어 HP: " + playerHP);
+			System.out.println();
+
 			playerWin++;
 			pcLose++;
+
 		}
 
 		else if (playerResult < pcResult)
@@ -110,39 +121,69 @@ public class GameManager {
 			System.out.println("컴퓨터: " + pc1 + "와" + " " + pc2 + " 계산 결과: " + pcResult);
 			System.out.println("플레이어: " + player1 + "와" + " " + player2 + " 계산결과: " + playerResult);
 			System.out.println("컴퓨터 승리");
+			System.out.println();
+			playerHP--;
+
+			System.out.println("컴퓨터 HP: " + pcHP);
+			System.out.println("플레이어 HP: " + playerHP);
+			System.out.println();
+
 			pcWin++;
 			playerLose++;
+
 		}
 
 		else {
 			System.out.println("컴퓨터: " + pc1 + "와" + " " + pc2 + " 계산 결과: " + pcResult);
 			System.out.println("플레이어: " + player1 + "와" + " " + player2 + " 계산결과: " + playerResult);
 			System.out.println("동점입니다.");
+			System.out.println();
 		}
 
 	}
 
-/*	public static void main(String[] args) {
+	
+	
+	// 콘솔 창에서 임시로 할 수 있도록 만듬
+	// 근데 코드가 좀 더럽네요..
+	// Um.............
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
 		int gameCount = 0;
 
-		while (gameCount != 5) {
-			GameManager GM = new GameManager();
-			GM.playInConsole();
-			gameCount++;
+		while (true) {
+			while (gameCount != 5 && playerHP != 0 && pcHP != 0) {
+				GameManager GM = new GameManager();
+				GM.playInConsole();
+				gameCount++;
+			}
+
+			// ㅡㅡㅡㅡ
+			if (pcWin > playerWin) {
+				System.out.println("LOSE");
+			}
+
+			else if (pcWin < playerWin) {
+				System.out.println("VICTORY");
+			}
+
+			else {
+				System.out.println("컴퓨터와 한몸 이시군요");
+			}
+
+			System.out.print("다시하시겠습니까? (y/n) >>");
+			String Restart = sc.next();
+
+			if (Restart.equals("y")) {
+				playerHP=3;
+				pcHP=3;
+				gameCount=0;
+				System.out.println();
+			}
+			else
+				break;
+
 		}
-		
-		if (pcWin > playerWin) {
-			System.out.println("컴퓨터 최종승리!!");
-		}
-		
-		else if (pcWin < playerWin) {
-			System.out.println("플레이어 최종승리!!");
-		}
-		
-		else {
-			System.out.println("컴퓨터와 한몸 이시군요");
-		}
-		
 	}
-*/
+
 }
