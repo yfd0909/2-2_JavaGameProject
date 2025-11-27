@@ -1,13 +1,13 @@
 package JokerGame;
 
 public class Card {
-	private String CardNum;
+	private int CardNum;
 	
-	public Card(String Num) {
+	public Card(int Num) {
 		this.CardNum = Num;
 	}
 	
-	public String getCardNum() {
+	public int getCardNum() {
 		return CardNum;
 		
 	}
