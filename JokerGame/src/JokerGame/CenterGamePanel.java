@@ -1,3 +1,4 @@
+/*
 package JokerGame;
 
 import javax.swing.*;
@@ -83,3 +84,4 @@ public class CenterGamePanel extends JPanel {
         add(bottomPanel);
     }
 }
+*/

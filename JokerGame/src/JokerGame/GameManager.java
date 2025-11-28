@@ -41,8 +41,8 @@ public class GameManager {
 	List<Card> playerHand = CardDeck.shareCard(12); // DealerDeck 클래스 안에있는 shareCard 정수 12를 넘겨서 무작위 카드 12장을 받는다.
 	List<Card> pcHand = CardDeck.shareCard(12); // 위와 마찬가지
 
-	int[] playerCh = new int[2]; // 플레이어 선택 카드 두개
-	int[] pcCh = new int[2]; // PC 선택 카드 두개
+	int[] playerCh = {0, 0}; // 플레이어 선택 카드 두개 (값이 0이면 없는 걸로 판단)
+	int[] pcCh = {0, 0}; // PC 선택 카드 두개
 
 	static int pcWin = 0;
 	static int pcLose = 0;
@@ -70,6 +70,33 @@ public class GameManager {
 
 		}
 		return 0;
+	}
+	public void AddBattleCard(int index) {
+		//플레이어가 카드 클릭 시 2배열 리스트에
+		//승부할 카드 번호를 저장하는 함수
+		if(playerCh[1] != 0) //가득 찼으면 리턴
+			return;
+		if(playerCh[0] != 0) {
+			playerCh[1] = playerHand.get(index).getCardNum();
+			playerHand.remove(index);
+			return;
+		}
+		playerCh[0] = playerHand.get(index).getCardNum();
+		playerHand.remove(index);
+	}
+	public void DeleteBattleCard() {
+		//승부 패의 카드를 다시 돌려갖는 함수
+		if(playerCh[0] == 0) //애초에 없으면 리턴
+			return;
+		if(playerCh[1] != 0) {
+			Card newCard = new Card(playerCh[1]);
+			playerHand.add(newCard);
+			playerCh[1] = 0;
+			return;
+		}
+		Card newCard = new Card(playerCh[0]);
+		playerHand.add(newCard);
+		playerCh[0] = 0;
 	}
 
 	// 카드 12개 중 두개 선택 시 정보 받아옴.

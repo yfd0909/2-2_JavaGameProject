@@ -25,17 +25,20 @@ public class MainGameFrame extends JFrame {
     
     //게임 인포
     private GameInfo info;
+    private GameManager manager;
     
     class PlayerGamePanel extends JPanel {
     	
     	ActionListener cardClickListener;
     	MouseAdapter cardMouseAdapter;
+    	GameManager manager;
     	
-        public PlayerGamePanel() {
+        public PlayerGamePanel(GameManager manager) {
             // 플레이어 패 설정 
             this.setLayout(null); 
             this.setBackground(new Color(49, 69, 68));
             this.setPreferredSize(new Dimension(1000, 150));
+            this.manager = manager;
 
             // 임시 표시
             this.setBorder(BorderFactory.createTitledBorder(
@@ -43,7 +46,7 @@ public class MainGameFrame extends JFrame {
             ));
         }
         // 추후 Card클래스로 변경 예정
-        public void DisplayHand(List<TestCard> cardList) {
+        public void DisplayHand(List<Card> cardList) {
             this.removeAll(); // 기존 카드들을 모두 제거
 
             int panelWidth = this.getWidth();
@@ -71,19 +74,23 @@ public class MainGameFrame extends JFrame {
             // 카드 클릭 시 동작할 액션리스너
             cardClickListener = new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    String clickedCardNum = e.getActionCommand();
-                    cardInfoPanel.SetCardText(clickedCardNum, null);
+                	JButton clickedButton = (JButton) e.getSource();
+                    int clickedCardIndex = (int) clickedButton.getClientProperty("index");
+                    manager.AddBattleCard(clickedCardIndex);
                     
-                    //카드 UI 업데이트 -> UpdateInfo()
+                    //카드 UI 업데이트
+                    DisplayHand(manager.playerHand);
+                    MainGameFrame.this.UpdateCenterBattleField();
                 }
             };
             
             JButton cardButton;
             
             if (cardList != null) {
-                for (TestCard card : cardList) {
+            	int cardIndex = 0;
+                for (Card card : cardList) {
                 	// 카드 이미지 경로 설정
-                	int cardNum =  card.getNum();
+                	int cardNum =  card.getCardNum();
                 	String imagePath = "/Images/" + cardNum + ".png"; 
                 	URL imageUrl = MainGameFrame.class.getResource(imagePath);
                     ImageIcon cardIcon = new ImageIcon(imageUrl);
@@ -94,6 +101,10 @@ public class MainGameFrame extends JFrame {
                     cardButton.setBounds(xPos, yPos, cardWidth, 100);
                     cardButton.setBackground(Color.WHITE);
                     cardButton.setForeground(Color.BLACK);
+                    
+                    //카드마다 고유 index 할당 (나중에 클릭할 때 몇 번째 카드인지 확인용)
+                    cardButton.putClientProperty("index", cardIndex);
+                    cardIndex++;
                     
                     this.add(cardButton); // 패널에 버튼 추가
                     
@@ -126,7 +137,7 @@ public class MainGameFrame extends JFrame {
             ));
         }
         // 추후 Card클래스로 변경 예정
-        public void DisplayHand(List<TestCard> cardList) {
+        public void DisplayHand(List<Card> cardList) {
             this.removeAll(); // 기존 카드들을 모두 제거
             
             int panelWidth = this.getWidth();
@@ -142,9 +153,9 @@ public class MainGameFrame extends JFrame {
             JButton cardButton;
             
             if (cardList != null) {
-                for (TestCard card : cardList) {
+                for (Card card : cardList) {
                 	// 카드 이미지 경로 설정
-                	int cardNum =  card.getNum();
+                	int cardNum =  card.getCardNum();
                 	String imagePath = "/Images/" + cardNum + ".png"; 
                 	URL imageUrl = MainGameFrame.class.getResource(imagePath);
                     ImageIcon cardIcon = new ImageIcon(imageUrl);
@@ -164,8 +175,130 @@ public class MainGameFrame extends JFrame {
                 }
             }
             
-            this.revalidate(); // 컴포넌트 추가 후 레이아웃을 다시 계산
-            this.repaint(); // 컴포넌트 
+            this.revalidate();
+            this.repaint(); 
+        }
+    }
+    // 중앙 카드더미 및 게임판 패널
+    class CenterGamePanel extends JPanel {
+
+    	private Color bgColor = new Color(54, 103, 84);
+    	
+    	private JLabel comOperatorBox;
+    	private JLabel comResultOperatorBox;
+    	private JLabel userOperatorBox;
+    	private JLabel userResultOperatorBox;
+    	private JLabel versusBox;
+    	
+    	private JButton comCard1;
+    	private JButton comCard2;
+    	private JLabel comResult;
+    	
+    	private JButton userCard1;
+    	private JButton userCard2;
+    	private JLabel userResult;
+    	
+    	ActionListener battleCardClickListener;
+    	
+        public CenterGamePanel() {
+        	//패널 3등분
+            setLayout(new GridLayout(3, 1));
+            
+            // 공용 세팅
+            comOperatorBox = new JLabel();
+            comResultOperatorBox = new JLabel();
+            userOperatorBox = new JLabel();
+            userResultOperatorBox = new JLabel();
+            comOperatorBox.setPreferredSize(new Dimension(35, 35));
+            comResultOperatorBox.setPreferredSize(new Dimension(35, 35));
+            userOperatorBox.setPreferredSize(new Dimension(35, 35));
+            userResultOperatorBox.setPreferredSize(new Dimension(35, 35));
+            
+        	String imagePath = "/Images/0.png"; 
+        	URL imageUrl = MainGameFrame.class.getResource(imagePath);
+            ImageIcon battleCardIcon = new ImageIcon(imageUrl);
+            
+            //리스너 설정
+            battleCardClickListener = new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                	manager.DeleteBattleCard();
+                	
+                	//카드 UI 업데이트
+                	UpdateBattleField();
+                	MainGameFrame.this.UpdatePlayerField();
+                }
+            };
+            
+            // 윗부분 (컴퓨터 쪽)
+            JPanel topPanel = new JPanel();
+            topPanel.setBackground(bgColor);
+            comCard1 = new JButton(battleCardIcon);
+            comCard2 = new JButton(battleCardIcon);
+            comResult = new JLabel("?");
+            comCard1.setPreferredSize(new Dimension(70, 105));
+            comCard2.setPreferredSize(new Dimension(70, 105));
+            comResult.setPreferredSize(new Dimension(70, 70));
+            comResult.setFont(new Font("SansSerif", Font.BOLD, 15));
+            comResult.setForeground(Color.red);
+            topPanel.add(comCard1);
+            topPanel.add(comOperatorBox);
+            topPanel.add(comCard2);
+            topPanel.add(comResultOperatorBox);
+            topPanel.add(comResult);
+            
+            // 중간부분 (VS글자)
+            JPanel middlePanel = new JPanel();
+            middlePanel.setBackground(bgColor);
+            versusBox = new JLabel();
+            versusBox.setSize(35, 35);
+            middlePanel.add(versusBox);
+            
+            // 아랫부분 (플레이어쪽)
+            JPanel bottomPanel = new JPanel();
+            bottomPanel.setBackground(bgColor);
+            userCard1 = new JButton(battleCardIcon);
+            userCard2 = new JButton(battleCardIcon);
+            userResult = new JLabel("?");
+            userCard1.setPreferredSize(new Dimension(70, 105));
+            userCard2.setPreferredSize(new Dimension(70, 105));
+            userResult.setPreferredSize(new Dimension(70, 70));
+            userResult.setFont(new Font("SansSerif", Font.BOLD, 15));
+            userResult.setForeground(Color.red);
+            
+            //리스너 추가
+            if(battleCardClickListener != null) {
+            	userCard1.addActionListener(battleCardClickListener);
+                userCard2.addActionListener(battleCardClickListener);
+            }
+            
+            bottomPanel.add(userCard1);
+            bottomPanel.add(userOperatorBox);
+            bottomPanel.add(userCard2);
+            bottomPanel.add(userResultOperatorBox);
+            bottomPanel.add(userResult);
+            
+            add(topPanel);
+            add(middlePanel);
+            add(bottomPanel);
+            
+            UpdateBattleField();
+            this.revalidate();
+            this.repaint(); 
+        }
+        public void UpdateBattleField() {
+        	// 카드 이미지 경로 설정
+        	int cardNum1 =  manager.playerCh[0];
+        	String imagePath1 = "/Images/" + cardNum1 + ".png"; 
+        	URL imageUrl1 = MainGameFrame.class.getResource(imagePath1);
+            ImageIcon cardIcon1 = new ImageIcon(imageUrl1);
+            
+            int cardNum2 =  manager.playerCh[1];
+        	String imagePath2 = "/Images/" + cardNum2 + ".png"; 
+        	URL imageUrl2 = MainGameFrame.class.getResource(imagePath2);
+            ImageIcon cardIcon2 = new ImageIcon(imageUrl2);
+            
+            userCard1.setIcon(cardIcon1);
+            userCard2.setIcon(cardIcon2);
         }
     }
 
@@ -176,6 +309,8 @@ public class MainGameFrame extends JFrame {
         setSize(1000, 700);
         setResizable(false);
         
+        manager = new GameManager(); //실게임 관리 매니저 생성
+        
         // 메인 패널 초기화
         mainPanel = new JPanel(new BorderLayout());
         
@@ -185,7 +320,7 @@ public class MainGameFrame extends JFrame {
         mainPanel.add(computerHandPanel, BorderLayout.NORTH);
 
         // 플레이어 패널 객체 생성 및 설정 
-        playerHandPanel = new PlayerGamePanel();
+        playerHandPanel = new PlayerGamePanel(manager);
         playerHandPanel.setPreferredSize(new Dimension(getWidth(), 150));
         mainPanel.add(playerHandPanel, BorderLayout.SOUTH);
         
@@ -208,20 +343,18 @@ public class MainGameFrame extends JFrame {
         setLocationRelativeTo(null); 
         setVisible(true);
         
-        // 임시 카드 리스트 생성
-        List<TestCard> playerStartHand = new ArrayList<>();
-        playerStartHand.add(new TestCard("Clover", 2));
-        playerStartHand.add(new TestCard("Clover", 6));
-        playerStartHand.add(new TestCard("Clover", 4));
-        playerStartHand.add(new TestCard("Clover", 8));
-        
-        List<TestCard> computerStartHand = new ArrayList<>();
-        for(int i = 0; i< 6; i++) {
-        	computerStartHand.add(new TestCard("Clover", 2));
-        }
         
         // 플레이어, 컴퓨터 패널에 카드 표시
-        computerHandPanel.DisplayHand(computerStartHand);
-        playerHandPanel.DisplayHand(playerStartHand);
+        computerHandPanel.DisplayHand(manager.pcHand);
+        playerHandPanel.DisplayHand(manager.playerHand);
+        
+    }
+    public void UpdateCenterBattleField() {
+        centerTablePanel.UpdateBattleField(); 
+        centerTablePanel.revalidate();
+        centerTablePanel.repaint();
+    }
+    public void UpdatePlayerField() {
+    	playerHandPanel.DisplayHand(manager.playerHand);
     }
 }
