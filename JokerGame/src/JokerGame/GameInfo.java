@@ -38,7 +38,7 @@ public class GameInfo {
 	public int GetComputerHp() {
 		return this.computerHp;
 	}
-	public int GetPlayeHp() {
+	public int GetPlayerHp() {
 		return this.playerHp;
 	}
 	public void SetComputerHp(int hp) {
@@ -50,19 +50,19 @@ public class GameInfo {
 	public String GetMessage() {
 		return this.message;
 	}
+	public void SetMessage(String message) {
+		String longMessage = message;
+		String htmlMessage = "<html><center>" + longMessage.replace("\n", "<br>") + "</center></html>";
+		this.message = htmlMessage;
+	}
 	private boolean HasName(String name) {
 		return true;
 	}
 	// 턴 지날 때마다 호출하는 함수 / info.SetNextTurn() 하고 패널 UpdateInfo() 호출하기
 	// 매개변수에 플레이어, 컴퓨터 각각 리스트 length 넣기
-	public void UpdateHealthPoint(int playerDamage, int computerDamage) {
-		int currentPlayerHp = GetPlayeHp();
-		currentPlayerHp -= playerDamage;
-		SetPlayerHp(currentPlayerHp);
-		
-		int currentComputerHp = GetComputerHp();
-		currentComputerHp -= computerDamage;
-		SetComputerHp(currentComputerHp);
+	public void UpdateHealthPoint(int playerHp, int computerHp) {
+		SetPlayerHp(playerHp);
+		SetComputerHp(computerHp);
 	}
 	public void SetNextTurn() {
 		turnCount += 1;
