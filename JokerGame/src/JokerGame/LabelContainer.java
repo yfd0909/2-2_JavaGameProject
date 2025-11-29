@@ -19,8 +19,12 @@ public class LabelContainer extends JPanel {
         this.add(contentLabel, BorderLayout.CENTER);
         
         // 공간 넉넉하게 설정
-        this.setPreferredSize(new Dimension(Integer.MAX_VALUE, height));
-        this.setMaximumSize(new Dimension(Integer.MAX_VALUE, height));
+        if (height == Integer.MAX_VALUE) {
+            this.setPreferredSize(new Dimension(Integer.MAX_VALUE, 400)); 
+        } else {
+            this.setPreferredSize(new Dimension(Integer.MAX_VALUE, height));
+            this.setMaximumSize(new Dimension(Integer.MAX_VALUE, height));
+        }
     }
     
     public JLabel getLabel() {

@@ -36,9 +36,9 @@ public class GameInfoPanel extends JPanel{
         computerCardCountContainer = new LabelContainer(
             new Font("SansSerif", Font.PLAIN, 15), Color.LIGHT_GRAY, 30, labelColor);
         
-        // 메시지 라벨
+        // 메시지 라벨 (얘는 공간을 넉넉하게 해주기 위해 maxvalue 넣기)
         messageContainer = new LabelContainer(
-            new Font("SansSerif", Font.BOLD, 17), Color.YELLOW, 40, labelColor);
+        	    new Font("SansSerif", Font.BOLD, 17), Color.YELLOW, Integer.MAX_VALUE, labelColor);
         
         // 생성자에서 초기화 슛
         UpdateInfo(info);
@@ -72,8 +72,8 @@ public class GameInfoPanel extends JPanel{
 	}
 	public void UpdateInfo(GameInfo info) {
 		
-		turnContainer.getLabel().setText("현재 턴 " + info.GetTurnCount());
-        playerCardCountContainer.getLabel().setText("나의 체력: " + info.GetPlayeHp());
+		turnContainer.getLabel().setText("현재 라운드 : " + info.GetTurnCount());
+        playerCardCountContainer.getLabel().setText("나의 체력: " + info.GetPlayerHp());
         computerCardCountContainer.getLabel().setText("상대 체력: " + info.GetComputerHp());
         messageContainer.getLabel().setText(info.GetMessage());
         
