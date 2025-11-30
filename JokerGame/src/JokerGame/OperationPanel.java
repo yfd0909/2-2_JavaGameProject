@@ -57,6 +57,8 @@ public class OperationPanel extends JPanel {
 	    
 	    submitClickListener = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+            	if(manager.isRoundEnd == true) //같은 카드로 계속 진행되는 불상사 방지 
+            		return;
             	manager.RoundStart();
             }
         };
