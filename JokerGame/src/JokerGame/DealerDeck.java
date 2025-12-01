@@ -10,15 +10,15 @@ public class DealerDeck {
 	
 	public DealerDeck(){
 		initDeck();
-		shuffleDeck();
 	}
 
-	private void initDeck() { // 24장 초기화
+	public void initDeck() { // 24장 초기화
 		
 		for (int i=1; i<=24; i++) {
 			Card c = new Card(i); // for 문 이용해서 카드에 1부터 24 int형으로 삽입
 			deck.add(c);
 		}
+		shuffleDeck();
 	}
 	
 	public void shuffleDeck() { 

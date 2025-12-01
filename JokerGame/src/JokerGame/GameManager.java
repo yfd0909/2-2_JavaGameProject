@@ -62,14 +62,8 @@ public class GameManager {
 		this.mainFrame = mainFrame;
 		this.info = info;
 		
-		ops.clear();
-		ops.add("add");
-		ops.add("sub");
-		ops.add("mul");
-		ops.add("div");
-		ops.add("remain");
+		ResetOps();
 	}
-
 	public void RoundEnd() {
 		isRoundEnd = true;
 		
@@ -90,11 +84,23 @@ public class GameManager {
 		mainFrame.UpdateGameInfoPanel();
 		
 		if(info.GetPlayerHp() == 0 || info.GetComputerHp() == 0) { //둘 중 한 명이라도 죽으면 게임종료 
-			GameEnd();
+			boolean isWin = info.GetPlayerHp() != 0;
+			GameEnd(isWin);
 		}
 	}
-	public void GameEnd() {
+	public void GameEnd(boolean isWin) {
+		isGameOver = true; //게임종료
 		//승패 기록, 승패에 따른 UI 업데이트 (사운드, 색깔등등)
+		if(isWin) { //플레이어 최종승리
+			info.SetMessage("플레이어가 최종 승리!\n대단해요!\n\n오른쪽에 있는 다시하기 버튼이나\n게임 종료 버튼을 눌러주세요.");
+			info.PlusWinCount();
+			mainFrame.UpdateGameInfoPanel();
+		}
+		else { //컴퓨터 최종승리
+			info.SetMessage("컴퓨터가 최종 승리!\n아쉽군요..\n\n오른쪽에 있는 다시하기 버튼이나\n게임 종료 버튼을 눌러주세요.");
+			info.PlusLoseCount();
+			mainFrame.UpdateGameInfoPanel();
+		}
 	}
 	public void NextRound() {
 		//승부 패 모두 비우고 업데이트
@@ -103,14 +109,37 @@ public class GameManager {
 		mainFrame.UpdateCenterBattleField(true);
 		
 		//인포 업데이트
-		info.SetNextTurn();
+		int currentTurn = info.GetTurnCount();
+		info.SetTurnCount(++currentTurn);
 		info.SetMessage(info.GetTurnCount() + "라운드 시작!\n카드를 내고 라운드 시작\n버튼을 눌러주세요!");
 		mainFrame.UpdateGameInfoPanel();
 		
 		canCard = true; //카드패 조작 가능
 		isRoundEnd = false; //라운드 재시작
 	}
-	public void RoundStart() {
+	public void ResetGame() {
+		//기본 정보 초기화
+		info.ResetGame();
+		ResetOps();
+		playerCh[0] = 0; playerCh[1] = 0;
+		pcCh[0] = 0; pcCh[1] = 0;
+		
+		// 카드 나눠주기
+		CardDeck.initDeck();
+		playerHand = CardDeck.shareCard(12);
+		pcHand = CardDeck.shareCard(12);
+		
+		//UI 업데이트
+		mainFrame.UpdateGameInfoPanel();
+		mainFrame.UpdateCenterBattleField(true);
+		mainFrame.UpdateCardField();
+		
+		//트리거 업데이트
+		isRoundEnd = false;
+		isGameOver = false;
+		canCard = true;
+	}
+	public void RoundStart() { //배틀 시작
 		if(playerCh[1] == 0) //2장을 다 안 냈으면 리턴
 			return;
 		
@@ -135,6 +164,14 @@ public class GameManager {
 		mainFrame.ShowGameResult(playerResult, pcResult);
 		
 		isPlayerWin = playerResult > pcResult ? true : false; //해당 라운드 승패 저장 
+	}
+	private void ResetOps() {
+		ops.clear();
+		ops.add("add");
+		ops.add("sub");
+		ops.add("mul");
+		ops.add("div");
+		ops.add("remain");
 	}
 	// a, b의 정보를 받아와서 그걸 계산하는 것.
 	private int operator(int user1, int user2, int pc1, int pc2) {

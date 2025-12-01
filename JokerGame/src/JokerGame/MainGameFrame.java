@@ -105,4 +105,7 @@ public class MainGameFrame extends JFrame {
     	playerHandPanel.DisplayHand(manager.playerHand);
     	computerHandPanel.DisplayHand(manager.pcHand);
     }
+    public void ProgramEnd() {
+    	info.ProgramEnd();
+    }
 }

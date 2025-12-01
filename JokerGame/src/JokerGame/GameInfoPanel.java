@@ -77,6 +77,10 @@ public class GameInfoPanel extends JPanel{
         computerHPContainer.getLabel().setText("상대 체력: " + info.GetComputerHp());
         messageContainer.getLabel().setText(info.GetMessage());
         
+        winLoseContainer.getLabel().setText(
+        		"승리 : " + info.GetWinCount() + " / " +
+        		"패배 : " + info.GetLoseCount());
+        
         //패널 다시 그리기
         this.revalidate();
         this.repaint();

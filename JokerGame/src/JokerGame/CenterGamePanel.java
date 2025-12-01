@@ -215,6 +215,8 @@ public class CenterGamePanel extends JPanel {
             
             userOperatorBox.setIcon(randomBoxIcon);
             comOperatorBox.setIcon(randomBoxIcon);
+            userResult.setText("?");
+            comResult.setText("?");
         }
         public void UpdateBattleField() {
         	// 카드 이미지 경로 설정, 유저용

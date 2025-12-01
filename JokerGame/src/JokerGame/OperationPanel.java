@@ -16,6 +16,8 @@ public class OperationPanel extends JPanel {
 	
 	ActionListener submitClickListener;
 	ActionListener nextClickListener;
+	ActionListener reClickListener;
+	ActionListener quitClickListener;
 	
 	private MainGameFrame mainFrame;
 	private GameManager manager;
@@ -57,21 +59,38 @@ public class OperationPanel extends JPanel {
 	    
 	    submitClickListener = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            	if(manager.isRoundEnd == true) //같은 카드로 계속 진행되는 불상사 방지 
+            	if(manager.isRoundEnd == true || manager.isGameOver == true) //같은 카드로 계속 진행되는 불상사 방지 
             		return;
             	manager.RoundStart();
             }
         };
         nextClickListener = new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		if(manager.isRoundEnd == false) //라운드 아직 안 끝났으면 리턴
+        		if(manager.isRoundEnd == false || manager.isGameOver == true) //라운드 아직 안 끝났거나 게임 종료되면 리턴
         			return;
         		manager.NextRound();
         	}
         };
-	    
+        reClickListener = new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		if(manager.isGameOver == false) //게임종료되지 않았으면 다시하기 안 됨
+        			return;
+        		manager.ResetGame();
+        	}
+        };
+        quitClickListener = new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		if(manager.isGameOver == false) //게임종료되지 않았으면 게임종료 안 됨
+        			return;
+        		mainFrame.ProgramEnd();
+        		System.exit(0);
+        	}
+        };
+        
         submitButton.addActionListener(submitClickListener);
         nextButton.addActionListener(nextClickListener);
+        reButton.addActionListener(reClickListener);
+        quitButton.addActionListener(quitClickListener);
         
 		//배치
 		this.add(Box.createVerticalStrut(30));
