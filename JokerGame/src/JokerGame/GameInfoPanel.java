@@ -13,10 +13,10 @@ public class GameInfoPanel extends JPanel{
 	   
 	public GameInfoPanel(GameInfo info) {
 		
-		Color labelColor = new Color(100, 0, 32);
+		Color labelColor = new Color(100, 0, 32, 0);
 		
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); 
-		this.setBackground(labelColor);
+		this.setBackground(new Color(27, 42, 48));
 	        
 		// 턴 수 라벨
         turnContainer = new LabelContainer(
@@ -30,11 +30,11 @@ public class GameInfoPanel extends JPanel{
         
         // 플레이어 카드 수 라벨
         playerHPContainer = new LabelContainer(
-            new Font("SansSerif", Font.PLAIN, 15), Color.LIGHT_GRAY, 30, labelColor);
+            new Font("SansSerif", Font.PLAIN, 15), Color.WHITE, 40, labelColor);
         
         // 컴퓨터 카드 수 라벨
         computerHPContainer = new LabelContainer(
-            new Font("SansSerif", Font.PLAIN, 15), Color.LIGHT_GRAY, 30, labelColor);
+            new Font("SansSerif", Font.PLAIN, 15), Color.WHITE, 40, labelColor);
         
         // 메시지 라벨 (얘는 공간을 넉넉하게 해주기 위해 maxvalue 넣기)
         messageContainer = new LabelContainer(

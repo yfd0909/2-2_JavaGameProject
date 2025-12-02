@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 
 public class CenterGamePanel extends JPanel {
 
-    	private Color bgColor = new Color(54, 103, 84);
+    	private Color bgColor = new Color(54, 103, 84, 0);
     	
     	private JLabel comOperatorBox;
     	private JLabel comResultOperatorBox;
@@ -51,6 +51,7 @@ public class CenterGamePanel extends JPanel {
     	
         public CenterGamePanel(MainGameFrame mainFrame, GameManager manager) {
         	//패널 3등분
+        	setBackground(new Color(54, 103, 84));
             setLayout(new GridLayout(3, 1));
             
             this.manager = manager;
@@ -76,11 +77,14 @@ public class CenterGamePanel extends JPanel {
             comOperatorBox.setPreferredSize(new Dimension(64, 64));
             userOperatorBox.setPreferredSize(new Dimension(64, 64));
             
+            //컴퓨터 연산자 박스
             comResultOperatorBox = new JLabel("=");
-            userResultOperatorBox = new JLabel("=");
             comResultOperatorBox.setFont(new Font("SansSerif", Font.BOLD, 30));
             comResultOperatorBox.setPreferredSize(new Dimension(35, 35));
             comResultOperatorBox.setForeground(Color.WHITE);
+            
+            //유저 연산자 박스
+            userResultOperatorBox = new JLabel("=");
             userResultOperatorBox.setFont(new Font("SansSerif", Font.BOLD, 30));
             userResultOperatorBox.setPreferredSize(new Dimension(35, 35));
             userResultOperatorBox.setForeground(Color.WHITE);

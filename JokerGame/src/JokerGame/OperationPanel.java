@@ -24,7 +24,7 @@ public class OperationPanel extends JPanel {
 	
 	public OperationPanel(MainGameFrame mainFrame, GameManager manager){
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		this.setBackground(new Color(0, 50, 0));
+		this.setBackground(new Color(27, 42, 48));
 		
 		this.mainFrame = mainFrame;
 		this.manager = manager;
