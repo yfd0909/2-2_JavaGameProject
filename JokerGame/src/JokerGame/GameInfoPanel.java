@@ -10,8 +10,10 @@ public class GameInfoPanel extends JPanel{
 	private LabelContainer playerHPContainer;
 	private LabelContainer computerHPContainer;
 	private LabelContainer messageContainer;
-	   
-	public GameInfoPanel(GameInfo info) {
+	
+	private boolean isFirstUpdate = false;
+	
+	public GameInfoPanel() {
 		
 		Color labelColor = new Color(100, 0, 32, 0);
 		
@@ -40,14 +42,6 @@ public class GameInfoPanel extends JPanel{
         messageContainer = new LabelContainer(
         	    new Font("SansSerif", Font.BOLD, 17), Color.YELLOW, Integer.MAX_VALUE, labelColor);
         
-        // 생성자에서 초기화 슛
-        UpdateInfo(info);
-        // 플레이어 정보는 한 번만
-        playerNameContainer.getLabel().setText("플레이어 이름 : " + info.GetPlayerName());
-        winLoseContainer.getLabel().setText(
-        		"승리 : " + info.GetWinCount() + " / " +
-        		"패배 : " + info.GetLoseCount());
-        
         // X축 정렬
         turnContainer.setAlignmentX(Component.CENTER_ALIGNMENT);
         playerHPContainer.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -71,7 +65,7 @@ public class GameInfoPanel extends JPanel{
         this.add(Box.createVerticalGlue()); 
 	}
 	public void UpdateInfo(GameInfo info) {
-		
+        playerNameContainer.getLabel().setText("플레이어 이름 : " + info.GetPlayerName());
 		turnContainer.getLabel().setText("현재 라운드 : " + info.GetTurnCount());
         playerHPContainer.getLabel().setText("나의 체력: " + info.GetPlayerHp());
         computerHPContainer.getLabel().setText("상대 체력: " + info.GetComputerHp());

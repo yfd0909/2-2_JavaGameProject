@@ -39,9 +39,9 @@ public class MainGameFrame extends JFrame {
         mainPanel = new JPanel(new BorderLayout());
         
         //게임 인포 출력 패널 
-        info = new GameInfo(playerName);
-        gameInfoPanel = new GameInfoPanel(info);
+        gameInfoPanel = new GameInfoPanel();
         gameInfoPanel.setPreferredSize(new Dimension(250, getHeight()));
+        info = new GameInfo(playerName, gameInfoPanel);
         mainPanel.add(gameInfoPanel, BorderLayout.WEST);
         
         manager = new GameManager(this, info); //실게임 관리 매니저 생성
@@ -110,9 +110,6 @@ public class MainGameFrame extends JFrame {
     public void UpdateCardField() {
     	playerHandPanel.DisplayHand(manager.playerHand);
     	computerHandPanel.DisplayHand(manager.pcHand);
-    }
-    public void ProgramEnd() {
-    	info.ProgramEnd();
     }
     //JMenu에서 테마 바꾸기용 메소드
     public void SetPanelTheme(Color fieldColor, Color centerColor, Color rightColor, Color leftColor) {

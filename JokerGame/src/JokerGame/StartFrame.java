@@ -42,13 +42,19 @@ public class StartFrame extends JFrame{
         
         
         //버튼 세팅
-        Dimension buttonSize = new Dimension(150, 50);
+        Dimension buttonSize = new Dimension(140, 40);
         
-        JButton startButton = new JButton("게임 시작");
+        String imagePath2 = "/Images/start.png"; 
+    	URL imageUrl2 = MainGameFrame.class.getResource(imagePath2);
+        ImageIcon buttonIcon1 = new ImageIcon(imageUrl2);
+        JButton startButton = new JButton(buttonIcon1);
         startButton.setPreferredSize(buttonSize);
         startButton.setMaximumSize(buttonSize);
         
-        JButton exitButton = new JButton("종료");
+        String imagePath3 = "/Images/exit.png"; 
+    	URL imageUrl3 = MainGameFrame.class.getResource(imagePath3);
+        ImageIcon buttonIcon2 = new ImageIcon(imageUrl3);
+        JButton exitButton = new JButton(buttonIcon2);
         exitButton.setPreferredSize(buttonSize);
         exitButton.setMaximumSize(buttonSize);
         

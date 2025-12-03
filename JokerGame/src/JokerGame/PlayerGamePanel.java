@@ -90,8 +90,8 @@ public class PlayerGamePanel extends JPanel {
             	
                 // 임시 카드 생성 지금은 카드 이름 띄우기
                 cardButton = new JButton(cardIcon);
-                cardButton.setPreferredSize(new Dimension(cardWidth, 100));
-                cardButton.setBounds(xPos, yPos, cardWidth, 100);
+                cardButton.setPreferredSize(new Dimension(cardWidth, 105));
+                cardButton.setBounds(xPos, yPos, cardWidth, 105);
                 cardButton.setBackground(Color.WHITE);
                 cardButton.setForeground(Color.BLACK);
                 

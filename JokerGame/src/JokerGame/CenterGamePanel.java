@@ -14,6 +14,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 public class CenterGamePanel extends JPanel {
 
@@ -51,8 +52,8 @@ public class CenterGamePanel extends JPanel {
     	
         public CenterGamePanel(MainGameFrame mainFrame, GameManager manager) {
         	//패널 3등분
-        	setBackground(new Color(54, 103, 84));
-            setLayout(new GridLayout(3, 1));
+        	this.setBackground(new Color(54, 103, 84));
+            this.setLayout(new GridLayout(3, 1));
             
             this.manager = manager;
             this.mainFrame = mainFrame;
@@ -72,6 +73,8 @@ public class CenterGamePanel extends JPanel {
             
             
             // 공용 세팅
+            URL resultUrl = MainGameFrame.class.getResource("/Images/result.png");
+            ImageIcon resultIcon = new ImageIcon(resultUrl);
             comOperatorBox = new JLabel(randomBoxIcon);
             userOperatorBox = new JLabel(randomBoxIcon);
             comOperatorBox.setPreferredSize(new Dimension(64, 64));
@@ -104,17 +107,21 @@ public class CenterGamePanel extends JPanel {
             
             // 윗부분 (컴퓨터 쪽)
             JPanel topPanel = new JPanel();
-            topPanel.setBackground(bgColor);
+            topPanel.setOpaque(false);
             topPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 5));
             
             comCard1 = new JButton(battleCardIcon);
             comCard2 = new JButton(battleCardIcon);
-            comResult = new JLabel("?");
+            comResult = new JLabel("?", resultIcon, SwingConstants.CENTER);
+            comResult.setHorizontalTextPosition(SwingConstants.CENTER);
+            comResult.setVerticalTextPosition(SwingConstants.CENTER);
+            comResult.setHorizontalAlignment(JLabel.CENTER);
             comCard1.setPreferredSize(new Dimension(70, 105));
             comCard2.setPreferredSize(new Dimension(70, 105));
-            comResult.setPreferredSize(new Dimension(70, 70));
+            comResult.setPreferredSize(new Dimension(85, 85));
             comResult.setFont(new Font("SansSerif", Font.BOLD, 30));
             comResult.setForeground(Color.red);
+            comResult.setBackground(Color.white);
             
             topPanel.add(comCard1);
             topPanel.add(comOperatorBox);
@@ -124,7 +131,7 @@ public class CenterGamePanel extends JPanel {
             
             // 중간부분 (VS글자)
             JPanel middlePanel = new JPanel();
-            middlePanel.setBackground(bgColor);
+            middlePanel.setOpaque(false);
             middlePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 5));
             
             versusBox = new JLabel("VS");
@@ -133,17 +140,22 @@ public class CenterGamePanel extends JPanel {
             
             // 아랫부분 (플레이어쪽)
             JPanel bottomPanel = new JPanel();
-            bottomPanel.setBackground(bgColor);
+            bottomPanel.setOpaque(false);
             bottomPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 5)); //간격 설정하는 거
             
             userCard1 = new JButton(battleCardIcon);
             userCard2 = new JButton(battleCardIcon);
-            userResult = new JLabel("?");
+            userResult = new JLabel("?", resultIcon, SwingConstants.CENTER);
+            userResult.setHorizontalTextPosition(SwingConstants.CENTER);
+            userResult.setVerticalTextPosition(SwingConstants.CENTER);
+            userResult.setHorizontalAlignment(JLabel.CENTER);
             userCard1.setPreferredSize(new Dimension(70, 105));
             userCard2.setPreferredSize(new Dimension(70, 105));
-            userResult.setPreferredSize(new Dimension(70, 70));
+            userResult.setPreferredSize(new Dimension(85,85));
             userResult.setFont(new Font("SansSerif", Font.BOLD, 30));
             userResult.setForeground(Color.red);
+            userResult.setBackground(Color.WHITE);
+            
             
             //리스너 추가
             if(battleCardClickListener != null) {

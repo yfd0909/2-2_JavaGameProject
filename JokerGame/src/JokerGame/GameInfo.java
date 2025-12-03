@@ -6,27 +6,36 @@ public class GameInfo {
 	private int playerHp; //플레이어 체력
 	private String message; //메세지 띄우기용
 	
-	FileManager fileManager;
+	LoadDataThread loader;
 	private String[] playerData;
 	private String playerName;
 	private int winCount; //파일 입출력으로 정보 가져오기
 	private int loseCount;
 	
+	private GameInfoPanel infoPanel;
 	// UI초기화
-	GameInfo(String name){
-		//플레이어 정보 가져오기
-		fileManager = new FileManager();
-		playerData = fileManager.FindPlayerData(name);
-		playerName = playerData[0];
-		winCount = Integer.parseInt(playerData[1]);
-		loseCount = Integer.parseInt(playerData[2]);
-		
+	GameInfo(String name, GameInfoPanel infoPanel){
+		//파일 불러오는 스레드 실행
+		loader = new LoadDataThread(this, name);
+        loader.start();
+        
+        this.infoPanel = infoPanel;
+        
 		//기본 정보 초기화
 		this.turnCount = 1;
 		this.computerHp = 3;
 		this.playerHp = 3;
 		this.message = "게임을 시작합니다.";
 	}
+	//스레드에서 작업이 끝나면 데이터 반환하는 콜백 함수
+	public void UpdateInfoAfterLoading(String[] loadedData) {
+        this.playerData = loadedData;
+        this.playerName = loadedData[0];
+        this.winCount = Integer.parseInt(loadedData[1]);
+        this.loseCount = Integer.parseInt(loadedData[2]);
+        
+        infoPanel.UpdateInfo(this);
+    }
 	public String GetPlayerName() {
 		return this.playerName;
 	}
@@ -79,16 +88,13 @@ public class GameInfo {
 			{playerName, 
 			String.valueOf(++winCount),
 			String.valueOf(loseCount)};
-		fileManager.SavePlayerData(updatedPlayerData);
+		loader.SaveData(updatedPlayerData);
 	}
 	public void PlusLoseCount() {
 		String[] updatedPlayerData = 
 			{playerName, 
 			String.valueOf(winCount),
 			String.valueOf(++loseCount)};
-		fileManager.SavePlayerData(updatedPlayerData);
-	}
-	public void ProgramEnd() {
-		fileManager.close();
+		loader.SaveData(updatedPlayerData);
 	}
 }
