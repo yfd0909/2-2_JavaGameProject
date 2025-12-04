@@ -22,6 +22,7 @@ public class OperationPanel extends JPanel {
 	
 	private MainGameFrame mainFrame;
 	private GameManager manager;
+	private RuleFrame ruleFrame; //게임 설명서
 	
 	public OperationPanel(MainGameFrame mainFrame, GameManager manager){
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -92,6 +93,26 @@ public class OperationPanel extends JPanel {
         		manager.NextRound();
         	}
         };
+        ruleButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	if(ruleFrame != null) //이미 켜져있으면 리턴
+            	{
+            		ruleFrame.setVisible(true);
+            		return;
+            	}
+            	//메인프레임 사이즈 계산
+                int parentX = mainFrame.getX();
+                int parentY = mainFrame.getY();
+                int parentWidth = mainFrame.getWidth();
+                //객체생성
+                ruleFrame = new RuleFrame();
+                //새 프레임 위치 계산
+                int newX = parentX + parentWidth; 
+                int newY = parentY;
+                ruleFrame.setLocation(newX, newY);
+                ruleFrame.setVisible(true);
+            }
+        });
         reClickListener = new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		if(manager.isGameOver == false) //게임종료되지 않았으면 다시하기 안 됨
