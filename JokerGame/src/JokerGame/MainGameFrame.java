@@ -91,18 +91,31 @@ public class MainGameFrame extends JFrame {
             	
             	//3초후에 딱 실행
             	centerTablePanel.ShowResult(String.valueOf(playerResult), String.valueOf(pcResult));
+            	if(playerResult > pcResult) {
+            		centerTablePanel.middlePanel.setOpaque(true);
+            		centerTablePanel.middlePanel.setBackground(new Color(0, 153, 0));
+            		centerTablePanel.versusBox.setText("WIN!");
+            	}
+            	else if(playerResult < pcResult) {
+            		centerTablePanel.middlePanel.setOpaque(true);
+            		centerTablePanel.middlePanel.setBackground(Color.RED);
+            		centerTablePanel.versusBox.setText("LOSE...");
+            	}
                 ((Timer)e.getSource()).stop();
             }
         });
-        timer.setRepeats(false); 
+        timer.setRepeats(false);
         timer.start();
     }
     public void UpdateGameInfoPanel() {
     	gameInfoPanel.UpdateInfo(info);
     }
     public void UpdateCenterBattleField(boolean isNewRound) {
-    	if(isNewRound)
+    	if(isNewRound) {
     		centerTablePanel.ResetRandomBox();
+    		centerTablePanel.middlePanel.setBackground(new Color(0,0,0,0));;
+    		centerTablePanel.versusBox.setText("VS");
+    	}
         centerTablePanel.UpdateBattleField(); 
         centerTablePanel.revalidate();
         centerTablePanel.repaint();

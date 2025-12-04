@@ -18,13 +18,13 @@ import javax.swing.SwingConstants;
 
 public class CenterGamePanel extends JPanel {
 
-    	private Color bgColor = new Color(54, 103, 84, 0);
-    	
     	private JLabel comOperatorBox;
     	private JLabel comResultOperatorBox;
     	private JLabel userOperatorBox;
     	private JLabel userResultOperatorBox;
-    	private JLabel versusBox;
+    	
+    	JPanel middlePanel;
+    	JLabel versusBox;
     	
     	private JButton comCard1;
     	private JButton comCard2;
@@ -130,12 +130,16 @@ public class CenterGamePanel extends JPanel {
             topPanel.add(comResult);
             
             // 중간부분 (VS글자)
-            JPanel middlePanel = new JPanel();
-            middlePanel.setOpaque(false);
+            middlePanel = new JPanel();
             middlePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 5));
-            
+            middlePanel.setOpaque(false);
             versusBox = new JLabel("VS");
-            versusBox.setSize(35, 35);
+            versusBox.setPreferredSize(new Dimension(150, 100));
+            versusBox.setHorizontalTextPosition(SwingConstants.CENTER);
+            versusBox.setVerticalTextPosition(SwingConstants.CENTER);
+            versusBox.setHorizontalAlignment(JLabel.CENTER);
+            versusBox.setFont(new Font("SansSerif", Font.BOLD, 30));
+            versusBox.setForeground(Color.WHITE);
             middlePanel.add(versusBox);
             
             // 아랫부분 (플레이어쪽)
