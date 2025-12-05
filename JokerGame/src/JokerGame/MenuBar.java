@@ -41,7 +41,7 @@ public class MenuBar {
         						new Color(27, 42, 48));
         				break;
         			case "Black":
-        				mainFrame.SetPanelTheme(new Color(17, 18, 12),
+        				mainFrame.SetPanelTheme(new Color(45,45,45),
         						new Color(216, 209, 189),
         						new Color(87, 85, 73),
         						new Color(87, 85, 73));
