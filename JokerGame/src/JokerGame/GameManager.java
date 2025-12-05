@@ -1,5 +1,6 @@
 package JokerGame;
 
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -36,6 +37,13 @@ public class GameManager {
 	 * 얘는 c.add(d[0]) 랑 c.add(d[1]) 먼저 해준 다음에 c[0] 랑 c[1]을 연산
 	 */
 
+	// 오디오
+	
+	private TestAudio audioPlayer;
+	private String Operation = "roulette.wav";
+	private String Victory = "Victory.wav";
+	private String Lose = "Lose.wav";
+
 	Random rand = new Random();
 	DealerDeck CardDeck = new DealerDeck(); // 카드 만들고 섞은 거 가져오기.
 	private MainGameFrame mainFrame;
@@ -44,45 +52,51 @@ public class GameManager {
 	List<Card> playerHand = CardDeck.shareCard(12); // DealerDeck 클래스 안에있는 shareCard 정수 12를 넘겨서 무작위 카드 12장을 받는다.
 	List<Card> pcHand = CardDeck.shareCard(12); // 위와 마찬가지
 
-	int[] playerCh = {0, 0}; // 플레이어 선택 카드 두개 (값이 0이면 없는 걸로 판단)
-	int[] pcCh = {0, 0}; // PC 선택 카드 두개
-	
-	//pc 는 알아서 선택, 계산
+	int[] playerCh = { 0, 0 }; // 플레이어 선택 카드 두개 (값이 0이면 없는 걸로 판단)
+	int[] pcCh = { 0, 0 }; // PC 선택 카드 두개
+
+	// pc 는 알아서 선택, 계산
 	private int pcResult;
-	
+
 	private List<String> ops = new ArrayList();
 	private int opIndex;
-	
-	boolean isPlayerWin = false; //승패 확인용
+
+	boolean isPlayerWin = false; // 승패 확인용
 	boolean isGameOver = false; // 게임 종료 트리거 (승패)
-	boolean isRoundEnd = false; // 라운드 종료 트리거 
-	boolean canCard = true; //카드패 조작 트리거
-	
+	boolean isRoundEnd = false; // 라운드 종료 트리거
+	boolean canCard = true; // 카드패 조작 트리거
+
 	public GameManager(MainGameFrame mainFrame, GameInfo info) {
 		this.mainFrame = mainFrame;
 		this.info = info;
-		
+    
 		ResetOps();
+		ops.clear();
+		ops.add("add");
+		ops.add("sub");
+		ops.add("mul");
+		ops.add("div");
+		ops.add("remain");
 	}
 	public void RoundEnd() {
 		isRoundEnd = true;
-		
+
 		int currentPlayerHp = info.GetPlayerHp();
 		int currentComHp = info.GetComputerHp();
-		
-		if(isPlayerWin)//플레이어가 이겼으면
+
+		if (isPlayerWin)// 플레이어가 이겼으면
 		{
+			audioPlayer.SFXAudio(Victory);
 			info.SetMessage("플레이어 승리!\n컴퓨터의 체력을 1 깎습니다.");
 			currentComHp--;
-		}
-		else {
+		} else {
+			audioPlayer.SFXAudio(Lose);
 			info.SetMessage("컴퓨터의 승리..\n플레이어의 체력을 1 깎습니다.");
 			currentPlayerHp--;
 		}
-		
-		info.UpdateHealthPoint(currentPlayerHp, currentComHp); //게임 체력정보 업데이트
+
+		info.UpdateHealthPoint(currentPlayerHp, currentComHp); // 게임 체력정보 업데이트
 		mainFrame.UpdateGameInfoPanel();
-		
 		if(info.GetPlayerHp() == 0 || info.GetComputerHp() == 0) { //둘 중 한 명이라도 죽으면 게임종료 
 			boolean isWin = info.GetPlayerHp() != 0;
 			GameEnd(isWin);
@@ -101,22 +115,26 @@ public class GameManager {
 			info.PlusLoseCount();
 			mainFrame.UpdateGameInfoPanel();
 		}
-	}
+  }
+
 	public void NextRound() {
-		//승부 패 모두 비우고 업데이트
-		playerCh[0] = 0; playerCh[1] = 0;
-		pcCh[0] = 0; pcCh[1] = 0;
+		// 승부 패 모두 비우고 업데이트
+		playerCh[0] = 0;
+		playerCh[1] = 0;
+		pcCh[0] = 0;
+		pcCh[1] = 0;
 		mainFrame.UpdateCenterBattleField(true);
-		
+    
 		//인포 업데이트
 		int currentTurn = info.GetTurnCount();
 		info.SetTurnCount(++currentTurn);
 		info.SetMessage(info.GetTurnCount() + "라운드 시작!\n카드를 내고 라운드 시작\n버튼을 눌러주세요!");
 		mainFrame.UpdateGameInfoPanel();
-		
-		canCard = true; //카드패 조작 가능
-		isRoundEnd = false; //라운드 재시작
+
+		canCard = true; // 카드패 조작 가능
+		isRoundEnd = false; // 라운드 재시작
 	}
+  
 	public void ResetGame() {
 		//기본 정보 초기화
 		info.ResetGame();
@@ -139,14 +157,17 @@ public class GameManager {
 		isGameOver = false;
 		canCard = true;
 	}
-	public void RoundStart() { //배틀 시작
-		if(playerCh[1] == 0) //2장을 다 안 냈으면 리턴
+  
+	public void RoundStart() {
+		audioPlayer = new TestAudio();
+		audioPlayer.SFXAudio(Operation);
+		if (playerCh[1] == 0) // 2장을 다 안 냈으면 리턴
 			return;
-		
-		//라운드 끝날 때까지 카드패 조작 불가능하도록 만들기
+
+		// 라운드 끝날 때까지 카드패 조작 불가능하도록 만들기
 		canCard = false;
-		
-		//컴퓨터쪽 답안도 계산
+
+		// 컴퓨터쪽 답안도 계산
 		Random pcRandom = new Random();
 		int pcRandIndex;
 		pcRandIndex = pcRandom.nextInt(pcHand.size());
@@ -155,16 +176,17 @@ public class GameManager {
 		pcRandIndex = pcRandom.nextInt(pcHand.size());
 		pcCh[1] = pcHand.get(pcRandIndex).getCardNum();
 		pcHand.remove(pcRandIndex);
-		
-		//컴퓨터쪽 카드가 제출됐으니 업데이트 해주기
+
+		// 컴퓨터쪽 카드가 제출됐으니 업데이트 해주기
 		mainFrame.UpdateCardField();
 		mainFrame.UpdateCenterBattleField(false);
-		
+
 		int playerResult = operator(playerCh[0], playerCh[1], pcCh[0], pcCh[1]);
 		mainFrame.ShowGameResult(playerResult, pcResult);
-		
-		isPlayerWin = playerResult > pcResult ? true : false; //해당 라운드 승패 저장 
+
+		isPlayerWin = playerResult > pcResult ? true : false; // 해당 라운드 승패 저장
 	}
+  
 	private void ResetOps() {
 		ops.clear();
 		ops.add("add");
@@ -173,46 +195,48 @@ public class GameManager {
 		ops.add("div");
 		ops.add("remain");
 	}
+  
 	// a, b의 정보를 받아와서 그걸 계산하는 것.
 	private int operator(int user1, int user2, int pc1, int pc2) {
 		opIndex = rand.nextInt(ops.size());
-		//센터 패널에 연산자 띄우기
+		// 센터 패널에 연산자 띄우기
 		mainFrame.RollCenterBattleField(ops.get(opIndex));
-		
-		//연산자 하나 썼으면 다음에는 다른 놈 나오도록 리스트에서 삭제
-		if(ops.get(opIndex).equals("add")) {
-			ops.remove(opIndex); 
+
+		// 연산자 하나 썼으면 다음에는 다른 놈 나오도록 리스트에서 삭제
+		if (ops.get(opIndex).equals("add")) {
+			ops.remove(opIndex);
 			pcResult = pc1 + pc2;
 			return user1 + user2;
 		}
-		if(ops.get(opIndex).equals("sub")) {
-			ops.remove(opIndex); 
+		if (ops.get(opIndex).equals("sub")) {
+			ops.remove(opIndex);
 			pcResult = pc1 - pc2;
 			return user1 - user2;
 		}
-		if(ops.get(opIndex).equals("mul")) {
-			ops.remove(opIndex); 
+		if (ops.get(opIndex).equals("mul")) {
+			ops.remove(opIndex);
 			pcResult = pc1 * pc2;
 			return user1 * user2;
 		}
-		if(ops.get(opIndex).equals("div")) {
-			ops.remove(opIndex); 
+		if (ops.get(opIndex).equals("div")) {
+			ops.remove(opIndex);
 			pcResult = pc1 / pc2;
 			return user1 / user2;
 		}
-		if(ops.get(opIndex).equals("remain")) {
-			ops.remove(opIndex); 
+		if (ops.get(opIndex).equals("remain")) {
+			ops.remove(opIndex);
 			pcResult = pc1 % pc2;
 			return user1 % user2;
 		}
 		return 0;
 	}
+
 	public void AddBattleCard(int index) {
-		//플레이어가 카드 클릭 시 2배열 리스트에
-		//승부할 카드 번호를 저장하는 함수
-		if(playerCh[1] != 0) //가득 찼으면 리턴
+		// 플레이어가 카드 클릭 시 2배열 리스트에
+		// 승부할 카드 번호를 저장하는 함수
+		if (playerCh[1] != 0) // 가득 찼으면 리턴
 			return;
-		if(playerCh[0] != 0) {
+		if (playerCh[0] != 0) {
 			playerCh[1] = playerHand.get(index).getCardNum();
 			playerHand.remove(index);
 			return;
@@ -220,11 +244,12 @@ public class GameManager {
 		playerCh[0] = playerHand.get(index).getCardNum();
 		playerHand.remove(index);
 	}
+
 	public void DeleteBattleCard() {
-		//승부 패의 카드를 다시 돌려갖는 함수
-		if(playerCh[0] == 0) //애초에 없으면 리턴
+		// 승부 패의 카드를 다시 돌려갖는 함수
+		if (playerCh[0] == 0) // 애초에 없으면 리턴
 			return;
-		if(playerCh[1] != 0) {
+		if (playerCh[1] != 0) {
 			Card newCard = new Card(playerCh[1]);
 			playerHand.add(newCard);
 			playerCh[1] = 0;
@@ -237,119 +262,84 @@ public class GameManager {
 
 	// 카드 12개 중 두개 선택 시 정보 받아옴.
 	/*
-	public void playInConsole() {
+	 * public void playInConsole() {
+	 * 
+	 * Scanner sc = new Scanner(System.in); int opInt = rand.nextInt(4) + 1; // 연산자
+	 * 결정할 변수 (1~4) for (int i = 0; i < playerHand.size(); i++) { Card c =
+	 * playerHand.get(i); System.out.print(c.getCardNum() + "  ");
+	 * 
+	 * }
+	 * 
+	 * System.out.println(" "); System.out.print("첫번째 카드 인덱스 선택>> "); int index1 =
+	 * sc.nextInt();
+	 * 
+	 * System.out.print("두번째 카드 인덱스 선택>> "); int index2 = sc.nextInt();
+	 * 
+	 * int player1 = playerHand.get(index1).getCardNum(); int player2 =
+	 * playerHand.get(index2).getCardNum();
+	 * 
+	 * int pc1 = pcHand.get(0).getCardNum(); int pc2 = pcHand.get(1).getCardNum();
+	 * 
+	 * int playerResult = operator(player1, player2); int pcResult = operator(pc1,
+	 * pc2);
+	 * 
+	 * if (playerResult > pcResult) { System.out.println("컴퓨터: " + pc1 + "와" + " " +
+	 * pc2 + " 계산 결과: " + pcResult); System.out.println("플레이어: " + player1 + "와" +
+	 * " " + player2 + " 계산결과: " + playerResult); System.out.println("플레이어 승리");
+	 * System.out.println(); pcHP--;
+	 * 
+	 * System.out.println("컴퓨터 HP: " + pcHP); System.out.println("플레이어 HP: " +
+	 * playerHP); System.out.println();
+	 * 
+	 * playerWin++; pcLose++;
+	 * 
+	 * }
+	 * 
+	 * else if (playerResult < pcResult)
+	 * 
+	 * { System.out.println("컴퓨터: " + pc1 + "와" + " " + pc2 + " 계산 결과: " +
+	 * pcResult); System.out.println("플레이어: " + player1 + "와" + " " + player2 +
+	 * " 계산결과: " + playerResult); System.out.println("컴퓨터 승리");
+	 * System.out.println(); playerHP--;
+	 * 
+	 * System.out.println("컴퓨터 HP: " + pcHP); System.out.println("플레이어 HP: " +
+	 * playerHP); System.out.println();
+	 * 
+	 * pcWin++; playerLose++;
+	 * 
+	 * }
+	 * 
+	 * else { System.out.println("컴퓨터: " + pc1 + "와" + " " + pc2 + " 계산 결과: " +
+	 * pcResult); System.out.println("플레이어: " + player1 + "와" + " " + player2 +
+	 * " 계산결과: " + playerResult); System.out.println("동점입니다.");
+	 * System.out.println(); }
+	 * 
+	 * }
+	 * 
+	 */
 
-		Scanner sc = new Scanner(System.in);
-		int opInt = rand.nextInt(4) + 1; // 연산자 결정할 변수 (1~4)
-		for (int i = 0; i < playerHand.size(); i++) {
-			Card c = playerHand.get(i);
-			System.out.print(c.getCardNum() + "  ");
-
-		}
-
-		System.out.println(" ");
-		System.out.print("첫번째 카드 인덱스 선택>> ");
-		int index1 = sc.nextInt();
-
-		System.out.print("두번째 카드 인덱스 선택>> ");
-		int index2 = sc.nextInt();
-
-		int player1 = playerHand.get(index1).getCardNum();
-		int player2 = playerHand.get(index2).getCardNum();
-
-		int pc1 = pcHand.get(0).getCardNum();
-		int pc2 = pcHand.get(1).getCardNum();
-
-		int playerResult = operator(player1, player2);
-		int pcResult = operator(pc1, pc2);
-
-		if (playerResult > pcResult) {
-			System.out.println("컴퓨터: " + pc1 + "와" + " " + pc2 + " 계산 결과: " + pcResult);
-			System.out.println("플레이어: " + player1 + "와" + " " + player2 + " 계산결과: " + playerResult);
-			System.out.println("플레이어 승리");
-			System.out.println();
-			pcHP--;
-
-			System.out.println("컴퓨터 HP: " + pcHP);
-			System.out.println("플레이어 HP: " + playerHP);
-			System.out.println();
-
-			playerWin++;
-			pcLose++;
-
-		}
-
-		else if (playerResult < pcResult)
-
-		{
-			System.out.println("컴퓨터: " + pc1 + "와" + " " + pc2 + " 계산 결과: " + pcResult);
-			System.out.println("플레이어: " + player1 + "와" + " " + player2 + " 계산결과: " + playerResult);
-			System.out.println("컴퓨터 승리");
-			System.out.println();
-			playerHP--;
-
-			System.out.println("컴퓨터 HP: " + pcHP);
-			System.out.println("플레이어 HP: " + playerHP);
-			System.out.println();
-
-			pcWin++;
-			playerLose++;
-
-		}
-
-		else {
-			System.out.println("컴퓨터: " + pc1 + "와" + " " + pc2 + " 계산 결과: " + pcResult);
-			System.out.println("플레이어: " + player1 + "와" + " " + player2 + " 계산결과: " + playerResult);
-			System.out.println("동점입니다.");
-			System.out.println();
-		}
-
-	}
-
-	*/
-	
 	// 콘솔 창에서 임시로 할 수 있도록 만듬
 	// 근데 코드가 좀 더럽네요..
 	// Um.............
 	/*
-	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
-		int gameCount = 0;
-
-		while (true) {
-			while (gameCount != 5 && playerHP != 0 && pcHP != 0) {
-				GameManager GM = new GameManager();
-				GM.playInConsole();
-				gameCount++;
-			}
-
-			// ㅡㅡㅡㅡ
-			if (pcWin > playerWin) {
-				System.out.println("LOSE");
-			}
-
-			else if (pcWin < playerWin) {
-				System.out.println("VICTORY");
-			}
-
-			else {
-				System.out.println("컴퓨터와 한몸 이시군요");
-			}
-
-			System.out.print("다시하시겠습니까? (y/n) >>");
-			String Restart = sc.next();
-
-			if (Restart.equals("y")) {
-				playerHP=3;
-				pcHP=3;
-				gameCount=0;
-				System.out.println();
-			}
-			else
-				break;
-
-		}
-	}
-	*/
+	 * public static void main(String[] args) { Scanner sc = new Scanner(System.in);
+	 * int gameCount = 0;
+	 * 
+	 * while (true) { while (gameCount != 5 && playerHP != 0 && pcHP != 0) {
+	 * GameManager GM = new GameManager(); GM.playInConsole(); gameCount++; }
+	 * 
+	 * // ㅡㅡㅡㅡ if (pcWin > playerWin) { System.out.println("LOSE"); }
+	 * 
+	 * else if (pcWin < playerWin) { System.out.println("VICTORY"); }
+	 * 
+	 * else { System.out.println("컴퓨터와 한몸 이시군요"); }
+	 * 
+	 * System.out.print("다시하시겠습니까? (y/n) >>"); String Restart = sc.next();
+	 * 
+	 * if (Restart.equals("y")) { playerHP=3; pcHP=3; gameCount=0;
+	 * System.out.println(); } else break;
+	 * 
+	 * } }
+	 */
 
 }
