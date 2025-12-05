@@ -160,10 +160,10 @@ public class GameManager {
   
 	public void RoundStart() {
 		audioPlayer = new TestAudio();
-		audioPlayer.SFXAudio(Operation);
 		if (playerCh[1] == 0) // 2장을 다 안 냈으면 리턴
 			return;
 
+		audioPlayer.SFXAudio(Operation);
 		// 라운드 끝날 때까지 카드패 조작 불가능하도록 만들기
 		canCard = false;
 
