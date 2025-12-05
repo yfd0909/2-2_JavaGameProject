@@ -1,9 +1,18 @@
 package JokerGame;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineEvent;
+import javax.sound.sampled.LineListener;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 
 public class StartFrame extends JFrame{
@@ -12,6 +21,9 @@ public class StartFrame extends JFrame{
 	private JPanel startPanel = new JPanel();
 	
 	public StartFrame(){
+		// 노래재생
+		loadAudio(song);
+		
 		setTitle("시작 화면");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(600, 600);
@@ -102,4 +114,36 @@ public class StartFrame extends JFrame{
         startPanel.add(buttonPanel);        
         add(startPanel);
 	}
+	
+	// 오디오 부분
+	private Clip clip;
+	private String song = "StartMusic.wav";
+	public void loadAudio (String pathName) {
+		try {
+			File audioFile = new File(pathName); // 오디오 파일의 경로명
+			final AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+			
+			clip = AudioSystem.getClip();
+			clip.addLineListener(new LineListener() {
+				public void update(LineEvent e) {
+					if (e.getType() == LineEvent.Type.STOP) {
+						// clip.stop()이 호출되거나 재생이 끝났을 때
+						
+						try {
+							System.out.println("재생 끝");
+							audioStream.close();
+						}catch(IOException e1) {
+							e1.printStackTrace();
+						}	
+					}
+				}
+			});
+			clip.open(audioStream);
+			clip.start();
+			}
+		catch (LineUnavailableException e) {e.printStackTrace();}
+		catch (UnsupportedAudioFileException e) {e.printStackTrace();}
+		catch (IOException e) {e.printStackTrace();}
+
+}
 }

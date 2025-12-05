@@ -14,6 +14,10 @@ public class OperationPanel extends JPanel {
 	JButton reButton; //다시하기 버튼
 	JButton quitButton; //종료 버튼
 	
+	// 오디오 추가
+	private TestAudio audioPlayer;
+	private String buttonSound = "Button_Pressed.wav";
+	
 	ActionListener submitClickListener;
 	ActionListener nextClickListener;
 	
@@ -29,6 +33,7 @@ public class OperationPanel extends JPanel {
 		
 		//객체 생성
 	    Dimension buttonSize = new Dimension(150, 50);// 버튼 크기
+	    audioPlayer = new TestAudio();
 
 	    submitButton = new JButton("라운드 시작");
 	    submitButton.setPreferredSize(buttonSize);
@@ -57,6 +62,7 @@ public class OperationPanel extends JPanel {
 	    
 	    submitClickListener = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+            	audioPlayer.loadAudio(buttonSound);
             	if(manager.isRoundEnd == true) //같은 카드로 계속 진행되는 불상사 방지 
             		return;
             	manager.RoundStart();
@@ -64,6 +70,7 @@ public class OperationPanel extends JPanel {
         };
         nextClickListener = new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
+            	audioPlayer.loadAudio(buttonSound);
         		if(manager.isRoundEnd == false) //라운드 아직 안 끝났으면 리턴
         			return;
         		manager.NextRound();
