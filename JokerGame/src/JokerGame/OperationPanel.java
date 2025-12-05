@@ -62,15 +62,16 @@ public class OperationPanel extends JPanel {
 	    
 	    submitClickListener = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            	audioPlayer.loadAudio(buttonSound);
+            	audioPlayer.SFXAudio(buttonSound);
             	if(manager.isRoundEnd == true) //같은 카드로 계속 진행되는 불상사 방지 
             		return;
             	manager.RoundStart();
             }
         };
+        
         nextClickListener = new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-            	audioPlayer.loadAudio(buttonSound);
+            	audioPlayer.SFXAudio(buttonSound);
         		if(manager.isRoundEnd == false) //라운드 아직 안 끝났으면 리턴
         			return;
         		manager.NextRound();
@@ -79,6 +80,25 @@ public class OperationPanel extends JPanel {
 	    
         submitButton.addActionListener(submitClickListener);
         nextButton.addActionListener(nextClickListener);
+        
+        // 액션 리스너 추가해서 버튼 눌리는 이벤트 있을 때마다 효과음 출력
+        ruleButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		audioPlayer.SFXAudio(buttonSound);
+        	}
+        });
+        
+        reButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		audioPlayer.SFXAudio(buttonSound);
+        	}
+        });
+        
+        quitButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		audioPlayer.SFXAudio(buttonSound);
+        	}
+        });
         
 		//배치
 		this.add(Box.createVerticalStrut(30));

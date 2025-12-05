@@ -1,29 +1,26 @@
 package JokerGame;
 
 import javax.sound.sampled.*;
-import javax.swing.*;
-import java.awt.*;
 import java.io.*;
 
-// 오디오 재생시키는 파일
+// 효과음 재생시키는 클래스
 public class TestAudio {
 	private Clip clip;
 	
-	// private String song="audio/BackGround.wav"; 
-	// 다른 쪽에서 loadAudio(song); 으로 호출
-	public void loadAudio (String pathName) {
+	public void SFXAudio (String pathName) {
 		try {
 			File audioFile = new File(pathName); // 오디오 파일의 경로명
 			final AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
 			
 			clip = AudioSystem.getClip();
+			clip.open(audioStream);
+			clip.start();			
+			
 			clip.addLineListener(new LineListener() {
 				public void update(LineEvent e) {
 					if (e.getType() == LineEvent.Type.STOP) {
-						// clip.stop()이 호출되거나 재생이 끝났을 때
-						
+						clip.close(); // 효과음 반복재생 가능하도록 바로 끄기.
 						try {
-							System.out.println("재생 끝");
 							audioStream.close();
 						}catch(IOException e1) {
 							e1.printStackTrace();
@@ -31,8 +28,7 @@ public class TestAudio {
 					}
 				}
 			});
-			clip.open(audioStream);
-			clip.start();
+
 			}
 		catch (LineUnavailableException e) {e.printStackTrace();}
 		catch (UnsupportedAudioFileException e) {e.printStackTrace();}
