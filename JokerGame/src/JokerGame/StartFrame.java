@@ -20,9 +20,14 @@ public class StartFrame extends JFrame{
 	
 	private JPanel startPanel = new JPanel();
 	
+	// 효과음
+	private TestAudio audioPlayer;
+	private String FrameChange = "frameChange.wav";
+	
 	public StartFrame(){
 		// 노래재생
 		loadAudio(song);
+		audioPlayer = new TestAudio();
 		
 		setTitle("시작 화면");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -64,7 +69,7 @@ public class StartFrame extends JFrame{
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	
+            	audioPlayer.SFXAudio(FrameChange);
             	String inputText = nameText.getText().trim(); 
             	if(inputText.isEmpty()){
             		JOptionPane.showMessageDialog(

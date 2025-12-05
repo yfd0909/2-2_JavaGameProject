@@ -24,8 +24,10 @@ public class PlayerGamePanel extends JPanel {
 	private GameManager manager;
 	private MainGameFrame mainFrame;
 	
+	// 오디오 부분
 	private TestAudio audioPlayer;
 	private String cardSound = "clickCard.wav";
+
 	
     public PlayerGamePanel(MainGameFrame mainFrame, GameManager manager) {
         // 플레이어 패 설정 
@@ -43,6 +45,7 @@ public class PlayerGamePanel extends JPanel {
         ));
     }
     public void DisplayHand(List<Card> cardList) {
+ 	audioPlayer = new TestAudio();   	
         this.removeAll(); // 기존 카드들을 모두 제거
 
         int panelWidth = this.getWidth();
@@ -70,7 +73,7 @@ public class PlayerGamePanel extends JPanel {
         // 카드 클릭 시 동작할 액션리스너
         cardClickListener = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            	audioPlayer.SFXAudio(cardSound);
+
             	JButton clickedButton = (JButton) e.getSource();
                 int clickedCardIndex = (int) clickedButton.getClientProperty("index");
                 manager.AddBattleCard(clickedCardIndex);
@@ -78,6 +81,7 @@ public class PlayerGamePanel extends JPanel {
                 //카드 UI 업데이트
                 DisplayHand(manager.playerHand);
                 mainFrame.UpdateCenterBattleField(false);
+             	audioPlayer.SFXAudio(cardSound);               
             }
         };
         
