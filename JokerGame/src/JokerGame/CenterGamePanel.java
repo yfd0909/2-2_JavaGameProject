@@ -14,16 +14,17 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 public class CenterGamePanel extends JPanel {
 
-    	private Color bgColor = new Color(54, 103, 84);
-    	
     	private JLabel comOperatorBox;
     	private JLabel comResultOperatorBox;
     	private JLabel userOperatorBox;
     	private JLabel userResultOperatorBox;
-    	private JLabel versusBox;
+    	
+    	JPanel middlePanel;
+    	JLabel versusBox;
     	
     	private JButton comCard1;
     	private JButton comCard2;
@@ -51,7 +52,8 @@ public class CenterGamePanel extends JPanel {
     	
         public CenterGamePanel(MainGameFrame mainFrame, GameManager manager) {
         	//패널 3등분
-            setLayout(new GridLayout(3, 1));
+        	this.setBackground(new Color(54, 103, 84));
+            this.setLayout(new GridLayout(3, 1));
             
             this.manager = manager;
             this.mainFrame = mainFrame;
@@ -71,16 +73,21 @@ public class CenterGamePanel extends JPanel {
             
             
             // 공용 세팅
+            URL resultUrl = MainGameFrame.class.getResource("/Images/result.png");
+            ImageIcon resultIcon = new ImageIcon(resultUrl);
             comOperatorBox = new JLabel(randomBoxIcon);
             userOperatorBox = new JLabel(randomBoxIcon);
             comOperatorBox.setPreferredSize(new Dimension(64, 64));
             userOperatorBox.setPreferredSize(new Dimension(64, 64));
             
+            //컴퓨터 연산자 박스
             comResultOperatorBox = new JLabel("=");
-            userResultOperatorBox = new JLabel("=");
             comResultOperatorBox.setFont(new Font("SansSerif", Font.BOLD, 30));
             comResultOperatorBox.setPreferredSize(new Dimension(35, 35));
             comResultOperatorBox.setForeground(Color.WHITE);
+            
+            //유저 연산자 박스
+            userResultOperatorBox = new JLabel("=");
             userResultOperatorBox.setFont(new Font("SansSerif", Font.BOLD, 30));
             userResultOperatorBox.setPreferredSize(new Dimension(35, 35));
             userResultOperatorBox.setForeground(Color.WHITE);
@@ -100,17 +107,21 @@ public class CenterGamePanel extends JPanel {
             
             // 윗부분 (컴퓨터 쪽)
             JPanel topPanel = new JPanel();
-            topPanel.setBackground(bgColor);
+            topPanel.setOpaque(false);
             topPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 5));
             
             comCard1 = new JButton(battleCardIcon);
             comCard2 = new JButton(battleCardIcon);
-            comResult = new JLabel("?");
+            comResult = new JLabel("?", resultIcon, SwingConstants.CENTER);
+            comResult.setHorizontalTextPosition(SwingConstants.CENTER);
+            comResult.setVerticalTextPosition(SwingConstants.CENTER);
+            comResult.setHorizontalAlignment(JLabel.CENTER);
             comCard1.setPreferredSize(new Dimension(70, 105));
             comCard2.setPreferredSize(new Dimension(70, 105));
-            comResult.setPreferredSize(new Dimension(70, 70));
+            comResult.setPreferredSize(new Dimension(85, 85));
             comResult.setFont(new Font("SansSerif", Font.BOLD, 30));
             comResult.setForeground(Color.red);
+            comResult.setBackground(Color.white);
             
             topPanel.add(comCard1);
             topPanel.add(comOperatorBox);
@@ -119,27 +130,36 @@ public class CenterGamePanel extends JPanel {
             topPanel.add(comResult);
             
             // 중간부분 (VS글자)
-            JPanel middlePanel = new JPanel();
-            middlePanel.setBackground(bgColor);
+            middlePanel = new JPanel();
             middlePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 5));
-            
+            middlePanel.setOpaque(false);
             versusBox = new JLabel("VS");
-            versusBox.setSize(35, 35);
+            versusBox.setPreferredSize(new Dimension(150, 100));
+            versusBox.setHorizontalTextPosition(SwingConstants.CENTER);
+            versusBox.setVerticalTextPosition(SwingConstants.CENTER);
+            versusBox.setHorizontalAlignment(JLabel.CENTER);
+            versusBox.setFont(new Font("SansSerif", Font.BOLD, 30));
+            versusBox.setForeground(Color.WHITE);
             middlePanel.add(versusBox);
             
             // 아랫부분 (플레이어쪽)
             JPanel bottomPanel = new JPanel();
-            bottomPanel.setBackground(bgColor);
+            bottomPanel.setOpaque(false);
             bottomPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 5)); //간격 설정하는 거
             
             userCard1 = new JButton(battleCardIcon);
             userCard2 = new JButton(battleCardIcon);
-            userResult = new JLabel("?");
+            userResult = new JLabel("?", resultIcon, SwingConstants.CENTER);
+            userResult.setHorizontalTextPosition(SwingConstants.CENTER);
+            userResult.setVerticalTextPosition(SwingConstants.CENTER);
+            userResult.setHorizontalAlignment(JLabel.CENTER);
             userCard1.setPreferredSize(new Dimension(70, 105));
             userCard2.setPreferredSize(new Dimension(70, 105));
-            userResult.setPreferredSize(new Dimension(70, 70));
+            userResult.setPreferredSize(new Dimension(85,85));
             userResult.setFont(new Font("SansSerif", Font.BOLD, 30));
             userResult.setForeground(Color.red);
+            userResult.setBackground(Color.WHITE);
+            
             
             //리스너 추가
             if(battleCardClickListener != null) {
@@ -215,6 +235,8 @@ public class CenterGamePanel extends JPanel {
             
             userOperatorBox.setIcon(randomBoxIcon);
             comOperatorBox.setIcon(randomBoxIcon);
+            userResult.setText("?");
+            comResult.setText("?");
         }
         public void UpdateBattleField() {
         	// 카드 이미지 경로 설정, 유저용

@@ -38,7 +38,7 @@ public class StartFrame extends JFrame{
         
         //게임 로고 패널
         JPanel logoPanel = new JPanel();
-        logoPanel.setBackground(new Color(0, 50, 0));
+        logoPanel.setBackground(new Color(54, 103, 84));
         
         String imagePath = "/Images/logo.png"; 
     	URL imageUrl = StartFrame.class.getResource(imagePath);
@@ -50,21 +50,30 @@ public class StartFrame extends JFrame{
         
         //그 밑 텍스트, 버튼 패널
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setBackground(new Color(0, 50, 0));
+        buttonPanel.setBackground(new Color(54, 103, 84));
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
         
         JTextField nameText = new JTextField(15);
         Dimension preferredSize = nameText.getPreferredSize();
         nameText.setMaximumSize(preferredSize);
         
-        JButton startButton = new JButton("게임 시작");
-        startButton.setPreferredSize(new Dimension(150, 40));
         
-        JButton ruleButton = new JButton("게임 방법");
-        startButton.setPreferredSize(new Dimension(150, 40));
+        //버튼 세팅
+        Dimension buttonSize = new Dimension(140, 40);
         
-        JButton exitButton = new JButton("종료");
-        exitButton.setPreferredSize(new Dimension(150, 40));
+        String imagePath2 = "/Images/start.png"; 
+    	URL imageUrl2 = MainGameFrame.class.getResource(imagePath2);
+        ImageIcon buttonIcon1 = new ImageIcon(imageUrl2);
+        JButton startButton = new JButton(buttonIcon1);
+        startButton.setPreferredSize(buttonSize);
+        startButton.setMaximumSize(buttonSize);
+        
+        String imagePath3 = "/Images/exit.png"; 
+    	URL imageUrl3 = MainGameFrame.class.getResource(imagePath3);
+        ImageIcon buttonIcon2 = new ImageIcon(imageUrl3);
+        JButton exitButton = new JButton(buttonIcon2);
+        exitButton.setPreferredSize(buttonSize);
+        exitButton.setMaximumSize(buttonSize);
         
         startButton.addActionListener(new ActionListener() {
             @Override
@@ -88,12 +97,6 @@ public class StartFrame extends JFrame{
                 dispose();
             }
         });
-        ruleButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				//게임 설명창 추가하기
-			}
-		});
         exitButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -103,16 +106,13 @@ public class StartFrame extends JFrame{
 
         nameText.setAlignmentX(Component.CENTER_ALIGNMENT);
         startButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        ruleButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         exitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         
         buttonPanel.add(Box.createVerticalStrut(40));
         buttonPanel.add(nameText);
-        buttonPanel.add(Box.createVerticalStrut(30));
+        buttonPanel.add(Box.createVerticalStrut(40));
         buttonPanel.add(startButton);
-        buttonPanel.add(Box.createVerticalStrut(30));
-        buttonPanel.add(ruleButton);
-        buttonPanel.add(Box.createVerticalStrut(30));
+        buttonPanel.add(Box.createVerticalStrut(20));
         buttonPanel.add(exitButton);
         
         startPanel.add(logoPanel);

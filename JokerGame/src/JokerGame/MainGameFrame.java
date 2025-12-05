@@ -16,6 +16,7 @@ import java.util.List;
 public class MainGameFrame extends JFrame {
 	
     // 각 패널 선언
+	private MenuBar menuBar;
     private ComputerGamePanel computerHandPanel; //컴퓨터 패널
     private PlayerGamePanel playerHandPanel; //플레이어 패널 
     private CenterGamePanel centerTablePanel; //중앙 패널
@@ -38,12 +39,15 @@ public class MainGameFrame extends JFrame {
         mainPanel = new JPanel(new BorderLayout());
         
         //게임 인포 출력 패널 
-        info = new GameInfo(playerName);
-        gameInfoPanel = new GameInfoPanel(info);
+        gameInfoPanel = new GameInfoPanel();
         gameInfoPanel.setPreferredSize(new Dimension(250, getHeight()));
+        info = new GameInfo(playerName, gameInfoPanel);
         mainPanel.add(gameInfoPanel, BorderLayout.WEST);
         
         manager = new GameManager(this, info); //실게임 관리 매니저 생성
+        
+        //메뉴바 생성
+        menuBar = new MenuBar(this);
         
         // 컴퓨터 패널 객체 생성 및 설정
         computerHandPanel = new ComputerGamePanel();
@@ -75,9 +79,11 @@ public class MainGameFrame extends JFrame {
         playerHandPanel.DisplayHand(manager.playerHand);
         
     }
+    //연산자 애니메이션 재생
     public void RollCenterBattleField(String op) {
     	centerTablePanel.RollOp(op);
     }
+    //결과보여주기
     public void ShowGameResult(int playerResult, int pcResult) {
     	Timer timer = new Timer(3000, new ActionListener() {
             @Override
@@ -85,18 +91,31 @@ public class MainGameFrame extends JFrame {
             	
             	//3초후에 딱 실행
             	centerTablePanel.ShowResult(String.valueOf(playerResult), String.valueOf(pcResult));
+            	if(playerResult > pcResult) {
+            		centerTablePanel.middlePanel.setOpaque(true);
+            		centerTablePanel.middlePanel.setBackground(new Color(0, 153, 0));
+            		centerTablePanel.versusBox.setText("WIN!");
+            	}
+            	else if(playerResult < pcResult) {
+            		centerTablePanel.middlePanel.setOpaque(true);
+            		centerTablePanel.middlePanel.setBackground(Color.RED);
+            		centerTablePanel.versusBox.setText("LOSE...");
+            	}
                 ((Timer)e.getSource()).stop();
             }
         });
-        timer.setRepeats(false); 
+        timer.setRepeats(false);
         timer.start();
     }
     public void UpdateGameInfoPanel() {
     	gameInfoPanel.UpdateInfo(info);
     }
     public void UpdateCenterBattleField(boolean isNewRound) {
-    	if(isNewRound)
+    	if(isNewRound) {
     		centerTablePanel.ResetRandomBox();
+    		centerTablePanel.middlePanel.setBackground(new Color(0,0,0,0));;
+    		centerTablePanel.versusBox.setText("VS");
+    	}
         centerTablePanel.UpdateBattleField(); 
         centerTablePanel.revalidate();
         centerTablePanel.repaint();
@@ -104,5 +123,13 @@ public class MainGameFrame extends JFrame {
     public void UpdateCardField() {
     	playerHandPanel.DisplayHand(manager.playerHand);
     	computerHandPanel.DisplayHand(manager.pcHand);
+    }
+    //JMenu에서 테마 바꾸기용 메소드
+    public void SetPanelTheme(Color fieldColor, Color centerColor, Color rightColor, Color leftColor) {
+    	playerHandPanel.setBackground(fieldColor);
+    	computerHandPanel.setBackground(fieldColor);
+    	centerTablePanel.setBackground(centerColor);
+    	gameInfoPanel.setBackground(leftColor);
+    	operationPanel.setBackground(rightColor);
     }
 }
