@@ -26,7 +26,7 @@ public class PlayerGamePanel extends JPanel {
 	
 	// 오디오 부분
 	private TestAudio audioPlayer;
-	private String cardSound = "clickCard.wav";
+	private String cardSound = "/Sounds/clickCard.wav";
 
 	
     public PlayerGamePanel(MainGameFrame mainFrame, GameManager manager) {
