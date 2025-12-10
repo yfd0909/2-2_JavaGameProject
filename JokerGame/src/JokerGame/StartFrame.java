@@ -18,7 +18,7 @@ import java.net.URL;
 public class StartFrame extends JFrame{
 	String name = "";
 	
-	private JPanel startPanel = new JPanel();
+	private BackgroundPanel startPanel;
 	
 	// 효과음
 	private TestAudio audioPlayer;
@@ -34,42 +34,49 @@ public class StartFrame extends JFrame{
         setSize(600, 600);
         setLocationRelativeTo(null); // 화면 중앙에 배치
         
+        //부모 패널
+        startPanel = new BackgroundPanel("/Images/bg.jpg");
         startPanel.setLayout(new GridLayout(2, 1));
         
         //게임 로고 패널
+        URL logoUrl = MainGameFrame.class.getResource("/Images/logo.png");
+        ImageIcon originalIcon = new ImageIcon(logoUrl);
+        Image originalImage = originalIcon.getImage();
+        Image scaledImage = originalImage.getScaledInstance(
+        		400, 400, Image.SCALE_SMOOTH 
+        );
+        ImageIcon scaledIcon = new ImageIcon(scaledImage);
+        
         JPanel logoPanel = new JPanel();
-        logoPanel.setBackground(new Color(54, 103, 84));
+        JLabel logo = new JLabel(scaledIcon);
         
-        String imagePath = "/Images/logo.png"; 
-    	URL imageUrl = StartFrame.class.getResource(imagePath);
-        ImageIcon logoIcon = new ImageIcon(imageUrl);
-        JLabel logo = new JLabel(logoIcon);
-        logo.setPreferredSize(new Dimension(500,300));
-        
+        logoPanel.setOpaque(false);
+        logo.setPreferredSize(new Dimension(400,340));
         logoPanel.add(logo);
         
         //그 밑 텍스트, 버튼 패널
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setBackground(new Color(54, 103, 84));
+        buttonPanel.setOpaque(false);
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
         
         JTextField nameText = new JTextField(15);
-        Dimension preferredSize = nameText.getPreferredSize();
-        nameText.setMaximumSize(preferredSize);
+        Dimension textFieldSize = new Dimension(150, 30);
+        nameText.setPreferredSize(textFieldSize );
+        nameText.setMaximumSize(textFieldSize);
         
         
         //버튼 세팅
         Dimension buttonSize = new Dimension(140, 40);
         
         String imagePath2 = "/Images/start.png"; 
-    	URL imageUrl2 = MainGameFrame.class.getResource(imagePath2);
+    		URL imageUrl2 = MainGameFrame.class.getResource(imagePath2);
         ImageIcon buttonIcon1 = new ImageIcon(imageUrl2);
         JButton startButton = new JButton(buttonIcon1);
         startButton.setPreferredSize(buttonSize);
         startButton.setMaximumSize(buttonSize);
         
         String imagePath3 = "/Images/exit.png"; 
-    	URL imageUrl3 = MainGameFrame.class.getResource(imagePath3);
+        URL imageUrl3 = MainGameFrame.class.getResource(imagePath3);
         ImageIcon buttonIcon2 = new ImageIcon(imageUrl3);
         JButton exitButton = new JButton(buttonIcon2);
         exitButton.setPreferredSize(buttonSize);
