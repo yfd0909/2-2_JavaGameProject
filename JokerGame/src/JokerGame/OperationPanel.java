@@ -44,6 +44,7 @@ public class OperationPanel extends JPanel {
 		Dimension buttonSize = new Dimension(140, 40);// 버튼 크기
 		audioPlayer = new TestAudio();
 
+		//라운드 시작 버튼
 	    buttonImagePath = "/Images/play.png";
 	    buttonImageUrl = MainGameFrame.class.getResource(buttonImagePath);
 	    buttonIcon = new ImageIcon(buttonImageUrl);
@@ -51,7 +52,12 @@ public class OperationPanel extends JPanel {
 	    submitButton.setPreferredSize(buttonSize);
 	    submitButton.setMaximumSize(buttonSize); 
 	    submitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+	    
+	    submitButton.setBorderPainted(false);
+	    submitButton.setContentAreaFilled(false);
+	    submitButton.setFocusPainted(false);
 	
+	    //다음 라운드 버튼
 	    buttonImagePath = "/Images/next.png";
 	    buttonImageUrl = MainGameFrame.class.getResource(buttonImagePath);
 	    buttonIcon = new ImageIcon(buttonImageUrl);
@@ -59,7 +65,12 @@ public class OperationPanel extends JPanel {
 	    nextButton.setPreferredSize(buttonSize);
 	    nextButton.setMaximumSize(buttonSize); 
 	    nextButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+	    
+	   	nextButton.setBorderPainted(false);
+	    nextButton.setContentAreaFilled(false);
+	    nextButton.setFocusPainted(false);
 	
+	    //게임 설명서 버튼
 	    buttonImagePath = "/Images/rule.png";
 	    buttonImageUrl = MainGameFrame.class.getResource(buttonImagePath);
 	    buttonIcon = new ImageIcon(buttonImageUrl);
@@ -67,7 +78,12 @@ public class OperationPanel extends JPanel {
 	    ruleButton.setPreferredSize(buttonSize);
 	    ruleButton.setMaximumSize(buttonSize);
 	    ruleButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+	    
+	    ruleButton.setBorderPainted(false);
+	    ruleButton.setContentAreaFilled(false);
+	    ruleButton.setFocusPainted(false);
 	
+	    //재시작 버튼
 	    buttonImagePath = "/Images/re.png";
 	    buttonImageUrl = MainGameFrame.class.getResource(buttonImagePath);
 	    buttonIcon = new ImageIcon(buttonImageUrl);
@@ -76,6 +92,11 @@ public class OperationPanel extends JPanel {
 	    reButton.setMaximumSize(buttonSize);
 	    reButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 	
+	    reButton.setBorderPainted(false);
+	    reButton.setContentAreaFilled(false);
+	    reButton.setFocusPainted(false);
+	    
+	    //종료 버튼
 	    buttonImagePath = "/Images/exit2.png";
 	    buttonImageUrl = MainGameFrame.class.getResource(buttonImagePath);
 	    buttonIcon = new ImageIcon(buttonImageUrl);
@@ -83,6 +104,10 @@ public class OperationPanel extends JPanel {
 	    quitButton.setPreferredSize(buttonSize);
 	    quitButton.setMaximumSize(buttonSize);
 	    quitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+	    
+	    quitButton.setBorderPainted(false);
+	    quitButton.setContentAreaFilled(false);
+	    quitButton.setFocusPainted(false);
 		    
 	    submitClickListener = new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
@@ -145,7 +170,7 @@ public class OperationPanel extends JPanel {
 	    quitButton.addActionListener(quitClickListener);
         
 		//배치
-	    this.add(Box.createVerticalStrut(30));
+	    this.add(Box.createVerticalStrut(25));
 		this.add(submitButton);
 		this.add(Box.createVerticalStrut(20));
 		this.add(nextButton);
@@ -155,6 +180,6 @@ public class OperationPanel extends JPanel {
 		this.add(reButton);
 		this.add(Box.createVerticalStrut(20));
 		this.add(quitButton);
-		this.add(Box.createVerticalStrut(30));
+		this.add(Box.createVerticalStrut(25));
 	}
 }

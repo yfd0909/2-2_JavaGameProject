@@ -9,14 +9,14 @@ import javax.swing.*;
 public class RuleFrame extends JFrame{
 	private JLabel ruleImage;
 	public RuleFrame() {
-        setSize(350, 600);
+        setSize(350, 500);
         setResizable(false);
         
         URL ruleUrl = MainGameFrame.class.getResource("/Images/ruleImage.png");
         ImageIcon originalIcon = new ImageIcon(ruleUrl);
         Image originalImage = originalIcon.getImage();
         Image scaledImage = originalImage.getScaledInstance(
-        		330, 450, Image.SCALE_SMOOTH 
+        		350, 460, Image.SCALE_SMOOTH 
         );
         
         ImageIcon scaledIcon = new ImageIcon(scaledImage);

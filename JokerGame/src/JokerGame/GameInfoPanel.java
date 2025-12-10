@@ -30,17 +30,17 @@ public class GameInfoPanel extends JPanel{
         winLoseContainer = new LabelContainer(
                 new Font("SansSerif", Font.BOLD, 15), Color.WHITE, 45, labelColor);
         
-        // 플레이어 카드 수 라벨
+        // 플레이어 체력 라벨
         playerHPContainer = new LabelContainer(
-            new Font("SansSerif", Font.PLAIN, 15), Color.WHITE, 40, labelColor);
+            new Font("SansSerif", Font.BOLD, 15), Color.WHITE, 40, labelColor);
         
-        // 컴퓨터 카드 수 라벨
+        // 컴퓨터 체력 라벨
         computerHPContainer = new LabelContainer(
-            new Font("SansSerif", Font.PLAIN, 15), Color.WHITE, 40, labelColor);
+            new Font("SansSerif", Font.BOLD, 15), Color.WHITE, 40, labelColor);
         
         // 메시지 라벨 (얘는 공간을 넉넉하게 해주기 위해 maxvalue 넣기)
         messageContainer = new LabelContainer(
-        	    new Font("SansSerif", Font.BOLD, 17), Color.YELLOW, Integer.MAX_VALUE, labelColor);
+        	    new Font("SansSerif", Font.BOLD, 14), Color.YELLOW, Integer.MAX_VALUE, labelColor);
         
         // X축 정렬
         turnContainer.setAlignmentX(Component.CENTER_ALIGNMENT);
