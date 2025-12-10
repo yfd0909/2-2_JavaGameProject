@@ -40,9 +40,9 @@ public class GameManager {
 	// 오디오
 	
 	private TestAudio audioPlayer;
-	private String Operation = "roulette.wav";
-	private String Victory = "Victory.wav";
-	private String Lose = "Lose.wav";
+	private String Operation = "/Sounds/roulette.wav";
+	private String Victory = "/Sounds/Victory.wav";
+	private String Lose = "/Sounds/Lose.wav";
 
 	Random rand = new Random();
 	DealerDeck CardDeck = new DealerDeck(); // 카드 만들고 섞은 거 가져오기.

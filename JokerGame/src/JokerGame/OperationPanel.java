@@ -17,7 +17,7 @@ public class OperationPanel extends JPanel {
 	
 	// 오디오 추가
 	private TestAudio audioPlayer;
-	private String buttonSound = "Button_Pressed.wav";
+	private String buttonSound = "/Sounds/Button_Pressed.wav";
 	
 	ActionListener submitClickListener;
 	ActionListener nextClickListener;
