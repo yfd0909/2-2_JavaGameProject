@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URL;
+import java.awt.Image;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -39,58 +40,55 @@ public class StartFrame extends JFrame {
 		audioPlayer = new TestAudio();
 
 		setTitle("시작 화면");
-    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    setSize(600, 600);
-    setLocationRelativeTo(null); // 화면 중앙에 배치
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setSize(600, 600);
+		setLocationRelativeTo(null); // 화면 중앙에 배치
 
-    //부모 패널
-    startPanel = new BackgroundPanel("/Images/bg.jpg");
-    startPanel.setLayout(new GridLayout(2, 1));
+		// 부모 패널
+		startPanel = new BackgroundPanel("/Images/bg.jpg");
+		startPanel.setLayout(new GridLayout(2, 1));
 
-    //게임 로고 패널
-    URL logoUrl = MainGameFrame.class.getResource("/Images/logo.png");
-    ImageIcon originalIcon = new ImageIcon(logoUrl);
-    Image originalImage = originalIcon.getImage();
-    Image scaledImage = originalImage.getScaledInstance(
-        400, 400, Image.SCALE_SMOOTH 
-    );
-    ImageIcon scaledIcon = new ImageIcon(scaledImage);
+		// 게임 로고 패널
+		URL logoUrl = MainGameFrame.class.getResource("/Images/logo.png");
+		ImageIcon originalIcon = new ImageIcon(logoUrl);
+		Image originalImage = originalIcon.getImage();
+		Image scaledImage = originalImage.getScaledInstance(400, 400, Image.SCALE_SMOOTH);
+		ImageIcon scaledIcon = new ImageIcon(scaledImage);
 
-    JPanel logoPanel = new JPanel();
-    JLabel logo = new JLabel(scaledIcon);
+		JPanel logoPanel = new JPanel();
+		JLabel logo = new JLabel(scaledIcon);
 
-    logoPanel.setOpaque(false);
-    logo.setPreferredSize(new Dimension(400,340));
-    logoPanel.add(logo);
+		logoPanel.setOpaque(false);
+		logo.setPreferredSize(new Dimension(400, 340));
+		logoPanel.add(logo);
 
-    //그 밑 텍스트, 버튼 패널
-    JPanel buttonPanel = new JPanel();
-    buttonPanel.setOpaque(false);
-    buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
+		// 그 밑 텍스트, 버튼 패널
+		JPanel buttonPanel = new JPanel();
+		buttonPanel.setOpaque(false);
+		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
 
-    JTextField nameText = new JTextField(15);
-    Dimension textFieldSize = new Dimension(150, 30);
-    nameText.setPreferredSize(textFieldSize );
-    nameText.setMaximumSize(textFieldSize);
+		JTextField nameText = new JTextField(15);
+		Dimension textFieldSize = new Dimension(150, 30);
+		nameText.setPreferredSize(textFieldSize);
+		nameText.setMaximumSize(textFieldSize);
 
+		// 버튼 세팅
+		Dimension buttonSize = new Dimension(140, 40);
 
-    //버튼 세팅
-    Dimension buttonSize = new Dimension(140, 40);
+		String imagePath2 = "/Images/start.png";
+		URL imageUrl2 = MainGameFrame.class.getResource(imagePath2);
+		ImageIcon buttonIcon1 = new ImageIcon(imageUrl2);
+		JButton startButton = new JButton(buttonIcon1);
+		startButton.setPreferredSize(buttonSize);
+		startButton.setMaximumSize(buttonSize);
 
-    String imagePath2 = "/Images/start.png"; 
-    URL imageUrl2 = MainGameFrame.class.getResource(imagePath2);
-    ImageIcon buttonIcon1 = new ImageIcon(imageUrl2);
-    JButton startButton = new JButton(buttonIcon1);
-    startButton.setPreferredSize(buttonSize);
-    startButton.setMaximumSize(buttonSize);
+		String imagePath3 = "/Images/exit.png";
+		URL imageUrl3 = MainGameFrame.class.getResource(imagePath3);
+		ImageIcon buttonIcon2 = new ImageIcon(imageUrl3);
+		JButton exitButton = new JButton(buttonIcon2);
+		exitButton.setPreferredSize(buttonSize);
+		exitButton.setMaximumSize(buttonSize);
 
-    String imagePath3 = "/Images/exit.png"; 
-    URL imageUrl3 = MainGameFrame.class.getResource(imagePath3);
-    ImageIcon buttonIcon2 = new ImageIcon(imageUrl3);
-    JButton exitButton = new JButton(buttonIcon2);
-    exitButton.setPreferredSize(buttonSize);
-    exitButton.setMaximumSize(buttonSize);
-    
 		startButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
