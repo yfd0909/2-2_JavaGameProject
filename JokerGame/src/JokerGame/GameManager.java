@@ -80,9 +80,25 @@ public class GameManager {
 	}
 	public void RoundEnd() {
 		isRoundEnd = true;
-
+		
 		int currentPlayerHp = info.GetPlayerHp();
 		int currentComHp = info.GetComputerHp();
+		
+		//연산자 목록 업데이트
+		String opList = "연산자 목록 :";
+		for(int i = 0; i < ops.size(); i++) {
+			if(ops.get(i).equals("add"))
+				opList += " + ";
+			else if(ops.get(i).equals("sub"))
+				opList += " - ";
+			else if(ops.get(i).equals("mul"))
+				opList += " * ";
+			else if(ops.get(i).equals("div"))
+				opList += " / ";
+			else if(ops.get(i).equals("remain"))
+				opList += " % ";
+		}
+		info.SetOpList(opList);
 
 		if (isPlayerWin)// 플레이어가 이겼으면
 		{
@@ -201,7 +217,7 @@ public class GameManager {
 		opIndex = rand.nextInt(ops.size());
 		// 센터 패널에 연산자 띄우기
 		mainFrame.RollCenterBattleField(ops.get(opIndex));
-
+		
 		// 연산자 하나 썼으면 다음에는 다른 놈 나오도록 리스트에서 삭제
 		if (ops.get(opIndex).equals("add")) {
 			ops.remove(opIndex);
