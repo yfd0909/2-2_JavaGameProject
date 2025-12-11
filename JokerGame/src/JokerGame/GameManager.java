@@ -164,6 +164,7 @@ public class GameManager {
 		pcHand = CardDeck.shareCard(12);
 		
 		//UI 업데이트
+		info.SetOpList("연산자 목록 : +  -  *  /  %");
 		mainFrame.UpdateGameInfoPanel();
 		mainFrame.UpdateCenterBattleField(true);
 		mainFrame.UpdateCardField();
