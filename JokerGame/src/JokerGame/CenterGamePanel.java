@@ -34,6 +34,9 @@ public class CenterGamePanel extends JPanel {
     	private JButton userCard2;
     	private JLabel userResult;
     	
+    	private TestAudio audioPlayer;
+    	private String cardSound = "/Sounds/clickCard.wav";
+    	
     	private final String[] opImages = {
     		    "/Images/add.png", 
     		    "/Images/sub.png", 
@@ -57,6 +60,8 @@ public class CenterGamePanel extends JPanel {
             
             this.manager = manager;
             this.mainFrame = mainFrame;
+            
+         	audioPlayer = new TestAudio();  
             
             //이미지 경로 설정 
         	String imagePath1 = "/Images/0.png"; 
@@ -95,13 +100,14 @@ public class CenterGamePanel extends JPanel {
             //리스너 설정
             battleCardClickListener = new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                	if(!manager.canCard)
-                		return;
-                	manager.DeleteBattleCard();
-                	
-                	//카드 UI 업데이트
-                	UpdateBattleField();
-                	mainFrame.UpdateCardField();
+                    audioPlayer.SFXAudio(cardSound);
+                    if(!manager.canCard)
+                        return;
+                    manager.DeleteBattleCard();
+
+                    //카드 UI 업데이트
+                    UpdateBattleField();
+                    mainFrame.UpdateCardField();
                 }
             };
             
