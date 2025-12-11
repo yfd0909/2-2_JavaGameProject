@@ -100,14 +100,14 @@ public class CenterGamePanel extends JPanel {
             //리스너 설정
             battleCardClickListener = new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                	audioPlayer.SFXAudio(cardSound);
-                	if(!manager.canCard)
-                		return;
-                	manager.DeleteBattleCard();
-                	
-                	//카드 UI 업데이트
-                	UpdateBattleField();
-                	mainFrame.UpdateCardField();
+                    audioPlayer.SFXAudio(cardSound);
+                    if(!manager.canCard)
+                        return;
+                    manager.DeleteBattleCard();
+
+                    //카드 UI 업데이트
+                    UpdateBattleField();
+                    mainFrame.UpdateCardField();
                 }
             };
             
