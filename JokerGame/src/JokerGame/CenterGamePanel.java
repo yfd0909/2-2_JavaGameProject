@@ -129,6 +129,14 @@ public class CenterGamePanel extends JPanel {
             comResult.setForeground(Color.red);
             comResult.setBackground(Color.white);
             
+            //카드 배경 제거
+            comCard1.setBorderPainted(false);
+            comCard1.setContentAreaFilled(false);
+            comCard1.setFocusPainted(false);
+            comCard2.setBorderPainted(false);
+            comCard2.setContentAreaFilled(false);
+            comCard2.setFocusPainted(false);
+            
             topPanel.add(comCard1);
             topPanel.add(comOperatorBox);
             topPanel.add(comCard2);
@@ -166,6 +174,12 @@ public class CenterGamePanel extends JPanel {
             userResult.setForeground(Color.red);
             userResult.setBackground(Color.WHITE);
             
+            userCard1.setBorderPainted(false);
+            userCard1.setContentAreaFilled(false);
+            userCard1.setFocusPainted(false);
+            userCard2.setBorderPainted(false);
+            userCard2.setContentAreaFilled(false);
+            userCard2.setFocusPainted(false);
             
             //리스너 추가
             if(battleCardClickListener != null) {

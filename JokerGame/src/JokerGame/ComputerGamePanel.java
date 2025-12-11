@@ -22,7 +22,6 @@ class ComputerGamePanel extends JPanel {
             "Computer's Hand"
         ));
     }
-    // 추후 Card클래스로 변경 예정
     public void DisplayHand(List<Card> cardList) {
         this.removeAll(); // 기존 카드들을 모두 제거
         
@@ -52,6 +51,11 @@ class ComputerGamePanel extends JPanel {
                 cardButton.setBounds(xPos, yPos, cardWidth, 105);
                 cardButton.setBackground(Color.WHITE);
                 cardButton.setForeground(Color.BLACK);
+                
+                //카드버튼 뒤에 하얀배경 제거
+                cardButton.setBorderPainted(false);
+                cardButton.setContentAreaFilled(false);
+                cardButton.setFocusPainted(false);
                 
                 this.add(cardButton); // 패널에 버튼 추가
                 

@@ -103,6 +103,11 @@ public class PlayerGamePanel extends JPanel {
                 cardButton.setBackground(Color.WHITE);
                 cardButton.setForeground(Color.BLACK);
                 
+                //카드버튼 하얀 배경 제거
+                cardButton.setBorderPainted(false);
+                cardButton.setContentAreaFilled(false);
+                cardButton.setFocusPainted(false);
+                
                 //카드마다 고유 index 할당 (나중에 클릭할 때 몇 번째 카드인지 확인용)
                 cardButton.putClientProperty("index", cardIndex);
                 cardIndex++;
