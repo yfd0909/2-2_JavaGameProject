@@ -96,7 +96,7 @@ public class MainGameFrame extends JFrame {
             		centerTablePanel.middlePanel.setBackground(new Color(0, 153, 0));
             		centerTablePanel.versusBox.setText("WIN!");
             	}
-            	else if(playerResult < pcResult) {
+            	else if(playerResult <= pcResult) {
             		centerTablePanel.middlePanel.setOpaque(true);
             		centerTablePanel.middlePanel.setBackground(Color.RED);
             		centerTablePanel.versusBox.setText("LOSE...");

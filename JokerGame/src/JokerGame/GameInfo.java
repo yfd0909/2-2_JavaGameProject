@@ -4,6 +4,7 @@ public class GameInfo {
 	private int turnCount; //게임 턴 수
 	private int computerHp; //컴퓨터 체력
 	private int playerHp; //플레이어 체력
+	private String opList; //사용된 연산자 출력
 	private String message; //메세지 띄우기용
 	
 	LoadDataThread loader;
@@ -25,6 +26,7 @@ public class GameInfo {
 		this.turnCount = 1;
 		this.computerHp = 3;
 		this.playerHp = 3;
+		this.opList = "연산자 목록 : +  -  *  /  %";
 		this.message = "게임을 시작합니다.";
 	}
 	//스레드에서 작업이 끝나면 데이터 반환하는 콜백 함수
@@ -62,6 +64,12 @@ public class GameInfo {
 	}
 	public void SetPlayerHp(int hp) {
 		this.playerHp = hp;
+	}
+	public String GetOpList() {
+		return this.opList;
+	}
+	public void SetOpList(String opList) {
+		this.opList = opList;
 	}
 	public String GetMessage() {
 		return this.message;

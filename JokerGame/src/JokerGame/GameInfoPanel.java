@@ -10,6 +10,7 @@ public class GameInfoPanel extends JPanel{
 	private LabelContainer playerHPContainer;
 	private LabelContainer computerHPContainer;
 	private LabelContainer messageContainer;
+	private LabelContainer opListContainer;
 	
 	private boolean isFirstUpdate = false;
 	
@@ -38,27 +39,35 @@ public class GameInfoPanel extends JPanel{
         computerHPContainer = new LabelContainer(
             new Font("SansSerif", Font.BOLD, 15), Color.WHITE, 40, labelColor);
         
+        //연산자 목록 라벨
+        opListContainer = new LabelContainer(
+        		new Font("SansSerif", Font.BOLD, 14), Color.MAGENTA, 40, labelColor);
+        
         // 메시지 라벨 (얘는 공간을 넉넉하게 해주기 위해 maxvalue 넣기)
         messageContainer = new LabelContainer(
         	    new Font("SansSerif", Font.BOLD, 14), Color.YELLOW, Integer.MAX_VALUE, labelColor);
         
         // X축 정렬
         turnContainer.setAlignmentX(Component.CENTER_ALIGNMENT);
+        playerNameContainer.setAlignmentX(Component.CENTER_ALIGNMENT);
+        winLoseContainer.setAlignmentX(Component.CENTER_ALIGNMENT);
         playerHPContainer.setAlignmentX(Component.CENTER_ALIGNMENT);
         computerHPContainer.setAlignmentX(Component.CENTER_ALIGNMENT);
+        opListContainer.setAlignmentX(Component.CENTER_ALIGNMENT);
         messageContainer.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // 패널에 추가 
         this.add(Box.createVerticalStrut(10));
         this.add(turnContainer);
-        this.add(Box.createVerticalStrut(20));
+        this.add(Box.createVerticalStrut(10));
         this.add(playerNameContainer);
         this.add(Box.createVerticalStrut(10));
         this.add(winLoseContainer);
-        this.add(Box.createVerticalStrut(20));
-        this.add(playerHPContainer);
         this.add(Box.createVerticalStrut(10));
+        this.add(playerHPContainer);
         this.add(computerHPContainer);
+        this.add(Box.createVerticalStrut(10));
+        this.add(opListContainer);
         this.add(Box.createVerticalStrut(20));
         this.add(messageContainer);
         
@@ -69,6 +78,7 @@ public class GameInfoPanel extends JPanel{
 		turnContainer.getLabel().setText("현재 라운드 : " + info.GetTurnCount());
         playerHPContainer.getLabel().setText("나의 체력: " + info.GetPlayerHp());
         computerHPContainer.getLabel().setText("상대 체력: " + info.GetComputerHp());
+        opListContainer.getLabel().setText(info.GetOpList());
         messageContainer.getLabel().setText(info.GetMessage());
         
         winLoseContainer.getLabel().setText(
