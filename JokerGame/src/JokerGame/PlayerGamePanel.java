@@ -104,7 +104,6 @@ public class PlayerGamePanel extends JPanel {
                 cardButton.setForeground(Color.BLACK);
                 
                 //카드버튼 하얀 배경 제거
-                cardButton.setBorderPainted(false);
                 cardButton.setContentAreaFilled(false);
                 cardButton.setFocusPainted(false);
                 
